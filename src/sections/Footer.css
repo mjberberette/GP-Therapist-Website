@@ -133,16 +133,6 @@
   );
   mix-blend-mode: screen;
 }
-.footer-glow-arches {
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='84' viewBox='0 0 56 84'%3E%3Cpath d='M8 84V44Q8 20 28 8Q48 20 48 44V84' fill='none' stroke='%23e5576f' stroke-width='1'/%3E%3Cpath d='M18 84V50Q18 36 28 28Q38 36 38 50V84' fill='none' stroke='%23e5576f' stroke-opacity='.45' stroke-width='1'/%3E%3C/svg%3E");
-  background-size: 56px 84px;
-  background-position: center bottom;
-  opacity: 0.5;
-  -webkit-mask-image: radial-gradient(ellipse 55% 85% at 50% 100%, #000 15%, rgba(0, 0, 0, 0.35) 45%, transparent 75%);
-  mask-image: radial-gradient(ellipse 55% 85% at 50% 100%, #000 15%, rgba(0, 0, 0, 0.35) 45%, transparent 75%);
-}
 .footer-bottom {
   display: flex;
   justify-content: space-between;

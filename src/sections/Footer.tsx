@@ -25,7 +25,6 @@ export default function Footer() {
       const glow = gsap.timeline({ scrollTrigger: { trigger: root.current, start: 'top 85%', once: true } })
       glow
         .from(q('.footer-glow-orb'), { autoAlpha: 0, yPercent: 30, scale: 0.8, duration: 1.8, ease: 'power3.out' })
-        .from(q('.footer-glow-arches'), { autoAlpha: 0, y: 80, duration: 1.4, ease: 'power3.out' }, 0.2)
         .to(q('.footer-glow-orb'), { opacity: 0.72, scaleX: 1.06, duration: 4, ease: 'sine.inOut', repeat: -1, yoyo: true })
       return () => split.revert()
     },
@@ -43,7 +42,6 @@ export default function Footer() {
         </filter>
       </svg>
       <div className="footer-glow" aria-hidden="true">
-        <div className="footer-glow-arches" />
         <div className="footer-glow-orb" />
       </div>
       <div className="container">
