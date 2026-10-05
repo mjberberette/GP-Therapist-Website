@@ -57,13 +57,11 @@ export function useReveal(scope: RefObject<HTMLElement | null>) {
       root.querySelectorAll<HTMLElement>('[data-draw]').forEach((el) => {
         const paths = el.querySelectorAll('.draw')
         if (!paths.length) return
-        gsap.from(paths, {
-          drawSVG: 0,
-          duration: 1.6,
-          stagger: 0.08,
-          ease: 'power2.inOut',
-          scrollTrigger: { trigger: el, start: 'top 90%', once: true },
-        })
+        const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 90%', once: true } })
+        tl.from(paths, { drawSVG: 0, duration: 1.6, stagger: 0.08, ease: 'power2.inOut' })
+        const icons = el.querySelectorAll('.icon')
+        if (icons.length)
+          tl.from(icons, { color: '#e5576f', duration: 1.8, ease: 'power2.inOut', clearProps: 'color' }, 0.9)
       })
     },
     { scope },

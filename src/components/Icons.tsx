@@ -1,121 +1,136 @@
-import type { SVGProps } from 'react'
+import { Children, cloneElement, isValidElement, type ReactElement, type ReactNode, type SVGProps } from 'react'
 
 type IconProps = SVGProps<SVGSVGElement> & { size?: number }
 
-const base = (size: number, props: IconProps) => ({
-  width: size,
-  height: size,
-  viewBox: '0 0 48 48',
-  fill: 'none',
-  stroke: 'currentColor',
-  strokeWidth: 1.4,
-  strokeLinecap: 'round' as const,
-  strokeLinejoin: 'round' as const,
-  'aria-hidden': true,
-  ...props,
-})
+/** Line icon with an accent light that travels along every stroke. */
+function Icon({ size, className = '', children, ...props }: IconProps & { size: number; children: ReactNode }) {
+  const trace = Children.map(children, (child) => {
+    if (!isValidElement(child)) return child
+    const el = child as ReactElement<SVGProps<SVGElement>>
+    const keep = (el.props.className ?? '').replace(/\bdraw\b/, '').trim()
+    return cloneElement(el, { className: `icon-trace-seg ${keep}`.trim(), pathLength: 1, fill: 'none' })
+  })
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 48 48"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.4}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+      className={`icon ${className}`}
+    >
+      <g className="icon-lines">{children}</g>
+      <g className="icon-trace">{trace}</g>
+    </svg>
+  )
+}
 
 export function MoonIcon({ size = 48, ...p }: IconProps) {
   return (
-    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+    <Icon size={size} {...p}>
       <path className="draw" d="M30 6a18 18 0 1 0 12 30A15 15 0 0 1 30 6Z" />
       <path className="draw" d="M14 14l1.2 2.6L18 18l-2.8 1.4L14 22l-1.2-2.6L10 18l2.8-1.4Z" />
       <circle className="draw" cx="22" cy="30" r="1.6" />
-    </svg>
+    </Icon>
   )
 }
 
 export function RoseIcon({ size = 48, ...p }: IconProps) {
   return (
-    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+    <Icon size={size} {...p}>
       <path className="draw" d="M13 16c0 7 5 11 11 11s11-4 11-11c-3 2-6 2-8 0-1 2-5 2-6 0-2 2-5 2-8 0Z" />
       <path className="draw" d="M18.5 16c-2-3.5 0-8 5.5-8s7.5 4.5 5.5 8" />
       <path className="draw" d="M24 11.5c-3 0-4.5 2.2-3.6 4.3.8 1.8 3.4 2.2 4.8.8 1.2-1.2.4-3.2-1.2-2.9" />
       <path className="draw" d="M24 27v17M24 37c-4.5-.6-7.6-3.6-8.6-7.4 4.4.2 7.6 2.6 8.6 7.4ZM24 33.5c3.4-.8 6-3 7-6.2-3.8 0-6.2 2.2-7 6.2ZM24 41l2.4-1.6M24 30.5l-2.2-1.2" />
-    </svg>
+    </Icon>
   )
 }
 
 export function CandleIcon({ size = 48, ...p }: IconProps) {
   return (
-    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+    <Icon size={size} {...p}>
       <path className="draw flame" d="M24 5c3 4 5 6.5 5 9.5a5 5 0 0 1-10 0C19 11.5 21 9 24 5Z" />
       <path className="draw" d="M24 14.5v4" />
       <path className="draw" d="M18 19h12v20H18z" />
       <path className="draw" d="M22 19v5c0 2 2 2 2 4" />
       <path className="draw" d="M12 39h24M14 43h20" />
-    </svg>
+    </Icon>
   )
 }
 
 export function KeyIcon({ size = 48, ...p }: IconProps) {
   return (
-    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+    <Icon size={size} {...p}>
       <circle className="draw" cx="24" cy="12" r="7" />
       <circle className="draw" cx="24" cy="12" r="2.5" />
       <path className="draw" d="M24 19v24M24 34h6M24 39h4M24 29h5" />
       <path className="draw" d="M17 12h-4M35 12h-4" />
-    </svg>
+    </Icon>
   )
 }
 
 export function EyeIcon({ size = 48, ...p }: IconProps) {
   return (
-    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+    <Icon size={size} {...p}>
       <path className="draw" d="M4 24c5-8 12-12 20-12s15 4 20 12c-5 8-12 12-20 12S9 32 4 24Z" />
       <circle className="draw pupil" cx="24" cy="24" r="6" />
       <circle className="pupil" cx="24" cy="24" r="2" fill="currentColor" />
       <path className="draw" d="M24 6v3M12 9l2 2.5M36 9l-2 2.5M24 42v-3" />
-    </svg>
+    </Icon>
   )
 }
 
 export function TelehealthIcon({ size = 48, ...p }: IconProps) {
   return (
-    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+    <Icon size={size} {...p}>
       <path className="draw" d="M9 12h30v20H9z" />
       <path className="draw" d="M4 36h40l-3 4H7z" />
       <path className="draw" d="M27 17a6 6 0 1 0 4 8 5 5 0 0 1-4-8Z" />
-    </svg>
+    </Icon>
   )
 }
 
 export function PaymentsIcon({ size = 48, ...p }: IconProps) {
   return (
-    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+    <Icon size={size} {...p}>
       <rect className="draw" x="5" y="12" width="38" height="24" rx="3" />
       <path className="draw" d="M5 19h38M11 29h8M33 27l1 2 2 .5-2 .5-1 2-1-2-2-.5 2-.5Z" />
-    </svg>
+    </Icon>
   )
 }
 
 export function InsuranceIcon({ size = 48, ...p }: IconProps) {
   return (
-    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+    <Icon size={size} {...p}>
       <path className="draw" d="M24 4l16 6v12c0 10-7 18-16 22C15 40 8 32 8 22V10Z" />
       <path className="draw" d="M24 14l2.4 5.2 5.6.6-4.2 3.8 1.2 5.6L24 26.4l-5 2.8 1.2-5.6-4.2-3.8 5.6-.6Z" />
-    </svg>
+    </Icon>
   )
 }
 
 export function DoorIcon({ size = 48, ...p }: IconProps) {
   return (
-    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+    <Icon size={size} {...p}>
       <path className="draw" d="M12 44V20a12 12 0 0 1 24 0v24" />
       <path className="draw" d="M8 44h32" />
       <path className="draw" d="M18 44V22a6 6 0 0 1 12 0v22" />
       <circle className="draw" cx="27" cy="33" r="1" />
       <path className="draw" d="M24 4v4M21 6h6" />
-    </svg>
+    </Icon>
   )
 }
 
 export function HeartIcon({ size = 48, ...p }: IconProps) {
   return (
-    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+    <Icon size={size} {...p}>
       <path className="draw" d="M24 41S7 30 7 18a8.5 8.5 0 0 1 17-2 8.5 8.5 0 0 1 17 2c0 12-17 23-17 23Z" />
       <path className="draw" d="M24 6v8M20 10h8" />
-    </svg>
+    </Icon>
   )
 }
 
