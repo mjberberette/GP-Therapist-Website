@@ -111,10 +111,10 @@ export class RoseScene {
     const rim = new THREE.PointLight('#ff1f45', 11, 0, 0)
     rim.position.set(-2.5, 1.5, -2.5)
     this.scene.add(rim)
-    const back = new THREE.PointLight('#8a3cff', 3, 0, 0)
+    const back = new THREE.PointLight('#ff1f45', 3, 0, 0)
     back.position.set(2.5, 0.5, -3)
     this.scene.add(back)
-    const violet = new THREE.PointLight('#7a3df0', 1.5, 0, 0)
+    const violet = new THREE.PointLight('#5a2bb8', 1.4, 0, 0)
     violet.position.set(-3, -1, 2.5)
     this.scene.add(violet)
   }
