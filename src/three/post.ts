@@ -24,7 +24,7 @@ const GradeShader = {
     uVignette: { value: 1.05 },
     uAberration: { value: 0.0016 },
     uGrain: { value: 0.045 },
-    uShadowTint: { value: new THREE.Color('#1a0716') },
+    uShadowTint: { value: new THREE.Color('#1c0a2c') },
     uHighlightTint: { value: new THREE.Color('#ffe6dc') },
   },
   vertexShader: /* glsl */ `

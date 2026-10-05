@@ -23,7 +23,8 @@ export function createBackdrop() {
     uTime: { value: 0 },
     uGlow: { value: new THREE.Color('#3d0714') },
     uSmoke: { value: new THREE.Color('#5a0b1e') },
-    uViolet: { value: new THREE.Color('#1c0a2e') },
+    uViolet: { value: new THREE.Color('#24103d') },
+    uMist: { value: new THREE.Color('#4a1a7a') },
     uBase: { value: new THREE.Color('#070405') },
     uIntensity: { value: 1 },
   }
@@ -39,7 +40,7 @@ export function createBackdrop() {
       }`,
     fragmentShader: /* glsl */ `
       uniform float uTime;
-      uniform vec3 uGlow, uSmoke, uViolet, uBase;
+      uniform vec3 uGlow, uSmoke, uViolet, uMist, uBase;
       uniform float uIntensity;
       varying vec3 vDir;
       ${FBM}
@@ -49,10 +50,14 @@ export function createBackdrop() {
         float glow = pow(max(0.0, dot(d, normalize(vec3(0.0, 0.15, -1.0)))), 3.0);
         float smoke = fbm(d * 2.4 + vec3(uTime * 0.015, uTime * 0.01, 0.0));
         smoke = smoothstep(0.35, 0.85, smoke);
+        float mist = smoothstep(0.4, 0.9, fbm(d * 1.7 - vec3(uTime * 0.012, 0.0, uTime * 0.008) + 4.0));
+        float side = max(0.0, dot(d, normalize(vec3(-0.75, 0.35, -0.6))));
+        float side2 = max(0.0, dot(d, normalize(vec3(0.8, 0.6, -0.4))));
         vec3 col = uBase;
-        col = mix(col, uViolet, smoothstep(0.2, 1.0, d.y) * 0.6);
+        col = mix(col, uViolet, smoothstep(0.0, 1.0, d.y) * 0.75);
         col += uGlow * glow * 1.4;
         col += uSmoke * smoke * (0.25 + horizon * 0.35);
+        col += uMist * (side * side * 0.55 + side2 * side2 * side2 * 0.35) * (0.45 + mist * 0.9);
         gl_FragColor = vec4(col * uIntensity, 1.0);
       }`,
   })
@@ -71,7 +76,7 @@ export function createLightShafts(count = 4) {
 
   for (let i = 0; i < count; i++) {
     const mat = new THREE.ShaderMaterial({
-      uniforms: { ...uniforms, uSeed: { value: i * 1.7 }, uColor: { value: new THREE.Color(i % 2 ? '#ff8f80' : '#ffd2c4') } },
+      uniforms: { ...uniforms, uSeed: { value: i * 1.7 }, uColor: { value: new THREE.Color(i % 2 ? '#c49aff' : '#ffd2c4') } },
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
@@ -170,6 +175,7 @@ export function createDust(count: number) {
         float a = smoothstep(0.5, 0.0, d);
         a *= a;
         vec3 col = mix(vec3(1.0, 0.35, 0.42), vec3(1.0, 0.86, 0.78), vWarm);
+        col = mix(col, vec3(0.72, 0.5, 1.0), step(0.62, fract(vWarm * 5.13)) * 0.85);
         gl_FragColor = vec4(col * a * vTwinkle * 1.6 * uIntensity, a * vTwinkle * uIntensity);
       }`,
   })
