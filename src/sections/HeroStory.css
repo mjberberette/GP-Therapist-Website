@@ -98,6 +98,7 @@
   align-content: end;
   justify-items: start;
   text-align: left;
+  padding-left: 9rem;
   padding-bottom: clamp(1rem, 4vh, 3rem);
 }
 .story-eyebrow {
@@ -129,6 +130,10 @@
 }
 .story-title-line {
   display: block;
+}
+.story-title-line > div {
+  padding: 0.04em 0.06em 0.24em;
+  margin: -0.04em -0.06em -0.24em;
 }
 .story-title em {
   color: var(--crimson-lit);
@@ -419,6 +424,7 @@
     inset: calc(var(--nav-h) + env(safe-area-inset-top)) var(--gutter) 4.5rem;
   }
   .beat-intro {
+    padding-left: 0;
     padding-bottom: 0;
   }
   .story-title {
