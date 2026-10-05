@@ -1,0 +1,45 @@
+.dock {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .dock {
+    position: fixed;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    z-index: 930;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.4rem;
+    border-radius: 999px;
+    background: rgba(17, 11, 13, 0.82);
+    border: 1px solid var(--line-strong);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  }
+  .dock a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .dock-call {
+    flex: 1;
+    background: var(--crimson);
+  }
+  .dock-call:active {
+    background: var(--blood);
+  }
+  .dock-portal {
+    padding: 0 1.1rem;
+    border: 1px solid var(--line-strong);
+  }
+}

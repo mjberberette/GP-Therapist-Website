@@ -1,0 +1,227 @@
+.fees {
+  overflow: clip;
+}
+.fees-head {
+  justify-items: center;
+  text-align: center;
+}
+
+.tarot-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 340px));
+  justify-content: center;
+  gap: clamp(1.25rem, 3vw, 3rem);
+  perspective: 1200px;
+}
+.tarot-slot {
+  perspective: 1000px;
+}
+
+.tarot {
+  position: relative;
+  aspect-ratio: 7 / 12;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  justify-items: center;
+  text-align: center;
+  padding: 2.25rem 1.5rem 2rem;
+  border-radius: 18px;
+  background: radial-gradient(100% 60% at 50% 30%, rgba(110, 20, 36, 0.55), transparent 70%),
+    linear-gradient(180deg, var(--ink-4), var(--ink-2));
+  border: 1px solid rgba(236, 227, 214, 0.22);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 0 60px rgba(0, 0, 0, 0.4);
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+.tarot-border {
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(236, 227, 214, 0.25);
+  border-radius: 10px;
+  pointer-events: none;
+}
+.tarot-border::before,
+.tarot-border::after {
+  content: '✦';
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  font-size: 0.8rem;
+  color: var(--crimson-lit);
+  background: var(--ink-4);
+  padding: 0 0.5rem;
+  line-height: 1;
+}
+.tarot-border::before {
+  top: 0;
+}
+.tarot-border::after {
+  top: 100%;
+  background: var(--ink-2);
+}
+.tarot-numeral {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  letter-spacing: 0.3em;
+  color: var(--crimson-lit);
+  transform: translateZ(30px);
+}
+.tarot-emblem {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 60%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(236, 227, 214, 0.25);
+  align-self: center;
+  transform: translateZ(50px);
+}
+.tarot-emblem .icon {
+  width: 46%;
+  height: auto;
+  color: var(--bone);
+}
+.tarot-rays {
+  position: absolute;
+  inset: -14%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(236, 227, 214, 0.22) 0deg 0.6deg, transparent 0.6deg 15deg);
+  mask: radial-gradient(circle, transparent 58%, #000 60%, #000 70%, transparent 72%);
+  -webkit-mask: radial-gradient(circle, transparent 58%, #000 60%, #000 70%, transparent 72%);
+  animation: spin 60s linear infinite;
+}
+.tarot-text {
+  display: grid;
+  gap: 0.3rem;
+  transform: translateZ(30px);
+}
+.tarot-name {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 1.3rem + 0.8vw, 2.1rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+.tarot-note {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.tarot-price {
+  margin-top: 1.25rem;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.9rem, 1.5rem + 1vw, 2.5rem);
+  color: var(--bone);
+  transform: translateZ(40px);
+}
+.tarot-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.tarot:hover .tarot-glare {
+  opacity: 1;
+}
+
+.fees-notes {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  margin-top: clamp(4rem, 8vw, 7rem);
+  padding-top: 3rem;
+  border-top: 1px solid var(--line);
+  align-items: start;
+}
+.fees-note {
+  display: grid;
+  gap: 0.9rem;
+  color: var(--bone-2);
+  font-size: 0.98rem;
+}
+.fees-quote {
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.85rem);
+  line-height: 1.25;
+}
+.fees-quote cite {
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--crimson-lit);
+}
+
+.link {
+  color: var(--bone);
+  background: linear-gradient(var(--crimson-lit), var(--crimson-lit)) 0 100% / 100% 1px no-repeat;
+  transition: background-size 0.5s var(--ease-out), color 0.3s;
+  padding-bottom: 2px;
+}
+.link:hover {
+  color: var(--crimson-lit);
+}
+
+@media (max-width: 1080px) {
+  .fees-notes {
+    grid-template-columns: 1fr 1fr;
+  }
+  .fees-quote {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+}
+
+@media (max-width: 899px) {
+  .tarot-row {
+    grid-template-columns: minmax(0, 340px);
+  }
+  .tarot {
+    aspect-ratio: auto;
+    min-height: 0;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    justify-items: start;
+    text-align: left;
+    column-gap: 1.25rem;
+    row-gap: 0.5rem;
+    padding: 1.75rem 1.5rem;
+    align-items: center;
+  }
+  .tarot-numeral {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.6rem;
+    font-size: 1rem;
+  }
+  .tarot-emblem {
+    grid-row: 1 / span 2;
+    width: 84px;
+  }
+  .tarot-price {
+    margin-top: 0;
+    grid-column: 2;
+  }
+  .tarot-text {
+    padding-right: 2rem;
+  }
+  .tarot-border::before,
+  .tarot-border::after {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .fees-notes {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,42 @@
+.marquee {
+  position: relative;
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+  border-block: 1px solid var(--line);
+  background: var(--ink-2);
+  overflow: hidden;
+}
+.marquee-row {
+  display: flex;
+  overflow: hidden;
+}
+.marquee-row + .marquee-row {
+  margin-top: 0.25rem;
+}
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  will-change: transform;
+}
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding-right: clamp(1.25rem, 3vw, 2.5rem);
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 1.5rem + 3.5vw, 5rem);
+  line-height: 1.1;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.marquee-item svg {
+  flex-shrink: 0;
+  color: var(--crimson-lit);
+}
+.is-outline .marquee-item {
+  font-style: italic;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(236, 227, 214, 0.55);
+}
+.is-outline .marquee-item svg {
+  color: var(--bone-dim);
+}

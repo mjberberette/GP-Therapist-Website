@@ -1,0 +1,45 @@
+.manifesto {
+  position: relative;
+  overflow: clip;
+}
+.manifesto-pin {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding-block: clamp(5rem, 10vw, 8rem);
+}
+.manifesto-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60vmax;
+  height: 60vmax;
+  margin: -30vmax 0 0 -30vmax;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(194, 45, 71, 0.2), transparent 60%);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.manifesto-inner {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 2rem;
+}
+.manifesto-candle {
+  color: var(--crimson-lit);
+}
+.manifesto-lead {
+  max-width: 54ch;
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem);
+  color: var(--bone-dim);
+  line-height: 1.7;
+}
+.manifesto-big {
+  max-width: 16ch;
+  font-size: clamp(2.8rem, 1.5rem + 6vw, 8.5rem);
+  line-height: 0.98;
+  font-style: italic;
+}

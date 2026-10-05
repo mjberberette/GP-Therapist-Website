@@ -1,0 +1,86 @@
+.insurance {
+  background: linear-gradient(180deg, var(--ink), var(--ink-2));
+}
+.insurance-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: start;
+}
+.insurance-head {
+  display: grid;
+  gap: 1.5rem;
+  position: sticky;
+  top: calc(var(--nav-h) + 2rem);
+}
+.insurance-shield {
+  margin-top: 1rem;
+  color: var(--crimson-lit);
+}
+.insurance-shield .icon {
+  color: inherit;
+  width: clamp(80px, 10vw, 130px);
+  height: auto;
+}
+
+.insurance-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+.insurer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 72px;
+  padding: 1rem 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.6rem);
+  line-height: 1.15;
+  background: rgba(26, 17, 20, 0.6);
+  transition: border-color 0.5s, background-color 0.5s, transform 0.7s var(--ease-out);
+}
+.insurer-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--crimson-lit);
+  transition: background-color 0.4s, box-shadow 0.4s;
+}
+@media (hover: hover) {
+  .insurer:hover {
+    border-color: var(--crimson);
+    background: rgba(110, 20, 36, 0.25);
+    transform: translateX(6px);
+  }
+  .insurer:hover .insurer-dot {
+    background: var(--crimson-lit);
+    box-shadow: 0 0 12px var(--crimson-lit);
+  }
+}
+
+@media (max-width: 900px) {
+  .insurance-grid {
+    grid-template-columns: 1fr;
+  }
+  .insurance-head {
+    position: relative;
+    top: 0;
+  }
+  .insurance-shield {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .insurance-list {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .insurer {
+    min-height: 60px;
+  }
+}

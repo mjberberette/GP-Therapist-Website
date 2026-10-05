@@ -1,0 +1,129 @@
+.art {
+  background: radial-gradient(80% 60% at 20% 30%, rgba(194, 45, 71, 0.28), transparent 60%),
+    linear-gradient(180deg, var(--ink) 0%, var(--oxblood) 30%, var(--oxblood) 70%, var(--ink) 100%);
+  overflow: clip;
+}
+
+.art-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(3rem, 7vw, 7rem);
+  align-items: start;
+}
+
+.art-visual {
+  position: sticky;
+  top: calc(var(--nav-h) + 4rem);
+}
+.art-eye-wrap {
+  display: grid;
+  gap: 2.5rem;
+  padding: clamp(5rem, 9vw, 7rem) clamp(1.5rem, 4vw, 3.5rem) clamp(2rem, 4vw, 3.5rem);
+  border: 1px solid rgba(236, 227, 214, 0.18);
+  border-radius: 999px 999px 24px 24px;
+  background: radial-gradient(70% 60% at 50% 40%, rgba(10, 7, 8, 0.25), rgba(10, 7, 8, 0.6));
+}
+.art-eye {
+  width: 100%;
+  color: var(--bone);
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  overflow: visible;
+}
+.art-eye .art-iris circle:nth-child(3) {
+  color: var(--crimson);
+}
+.art-track {
+  position: relative;
+  height: 2px;
+  background: rgba(236, 227, 214, 0.18);
+  border-radius: 2px;
+}
+.art-light {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin-top: -7px;
+  border-radius: 50%;
+  background: var(--crimson-lit);
+  box-shadow: 0 0 18px 4px rgba(229, 87, 111, 0.6);
+}
+
+.art-content {
+  display: grid;
+  gap: 1.75rem;
+}
+.art-body {
+  font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+  color: var(--bone);
+}
+
+.art-symptoms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+.art-symptom {
+  position: relative;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid rgba(236, 227, 214, 0.25);
+  border-radius: 999px;
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 1rem + 0.5vw, 1.45rem);
+  line-height: 1.2;
+}
+.art-strike {
+  position: absolute;
+  left: 0.8rem;
+  right: 0.8rem;
+  top: 52%;
+  height: 1.5px;
+  background: var(--crimson-lit);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.art-relief {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(236, 227, 214, 0.18);
+}
+.art-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(5rem, 3rem + 7vw, 9.5rem);
+  line-height: 0.85;
+  color: var(--crimson-lit);
+}
+.art-relief p {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.9rem);
+  line-height: 1.2;
+}
+
+@media (max-width: 900px) {
+  .art-grid {
+    grid-template-columns: 1fr;
+  }
+  .art-visual {
+    position: relative;
+    top: 0;
+    max-width: 440px;
+    width: 100%;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .art-relief {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}

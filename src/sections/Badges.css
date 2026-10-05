@@ -1,0 +1,114 @@
+.badges {
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.badge {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1.75rem clamp(1rem, 2vw, 2rem);
+  border-left: 1px solid var(--line);
+  transition: background-color 0.6s var(--ease-out);
+}
+.badge:last-child {
+  border-right: 1px solid var(--line);
+}
+.badge::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--crimson);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s var(--ease-out);
+}
+.badge:hover {
+  background: rgba(110, 20, 36, 0.12);
+}
+.badge:hover::after {
+  transform: scaleX(1);
+}
+.badge-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+}
+.badge-icon .icon {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.7s var(--ease-out), color 0.4s;
+}
+.badge:hover .badge-icon .icon {
+  color: var(--crimson-lit);
+  transform: rotate(-8deg) scale(1.08);
+}
+.badge-text {
+  display: grid;
+  line-height: 1.2;
+}
+.badge-top {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.badge-bottom {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 1rem + 0.8vw, 1.75rem);
+  font-weight: 500;
+}
+
+@media (max-width: 1080px) {
+  .badges-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .badge:nth-child(2) {
+    border-right: 1px solid var(--line);
+  }
+  .badge:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 560px) {
+  .badges-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+  .badge {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 1.1rem;
+    border: 1px solid var(--line) !important;
+    border-radius: 18px;
+    background: var(--ink-2);
+  }
+  .badge-icon {
+    width: 52px;
+    height: 52px;
+  }
+  .badge-icon .icon {
+    width: 26px;
+    height: 26px;
+  }
+  .badge-top {
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+  }
+  .badge-bottom {
+    font-size: 1.3rem;
+  }
+}
