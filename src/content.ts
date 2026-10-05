@@ -111,19 +111,58 @@ export const services = {
 }
 
 export const approaches = [
-  'Trauma Focused',
-  'Acceptance and Commitment (ACT)',
-  'Exposure Response Prevention (ERP)',
-  'Prolonged Exposure Therapy',
-  'Accelerated Resolution Therapy (ART)',
-  'Strength-Based',
-  'Cognitive Behavioral Therapy (CBT)',
-  'Dialectical (DBT)',
-  'Psychodynamic Therapy',
-  'Emotionally Focused',
-  'Reality Therapy',
-  'Health at Every Size',
-  'Schema Therapy',
+  {
+    name: 'Trauma Focused',
+    desc: 'Therapy that recognizes how painful past experiences shape the way you think, feel, and react today. We move at your pace and build safety first. The goal is helping your mind and body feel less on alert.',
+  },
+  {
+    name: 'Acceptance and Commitment (ACT)',
+    desc: 'Instead of fighting difficult thoughts and feelings, ACT helps you make room for them. You’ll practice mindfulness and get clear on what matters most to you. Then we take small steps toward a life that reflects those values.',
+  },
+  {
+    name: 'Exposure Response Prevention (ERP)',
+    desc: 'A leading treatment for OCD. Together we gradually face the thoughts or situations that trigger anxiety, while resisting the urge to do compulsions. Over time, your brain learns the fear can pass on its own.',
+  },
+  {
+    name: 'Prolonged Exposure Therapy',
+    desc: 'A structured trauma therapy that helps you safely approach memories and situations you’ve been avoiding. Facing them gradually, with support, takes away some of their power. Many people find PTSD symptoms ease as avoidance loosens.',
+  },
+  {
+    name: 'Accelerated Resolution Therapy (ART)',
+    desc: `${art.body} ${art.relief}`,
+  },
+  {
+    name: 'Strength-Based',
+    desc: 'Focuses on what’s already working for you, not only what feels hard. We identify your skills, resilience, and supports. Then we use them to help you move toward your goals.',
+  },
+  {
+    name: 'Cognitive Behavioral Therapy (CBT)',
+    desc: 'Explores how your thoughts, feelings, and actions affect one another. You’ll learn to notice unhelpful thinking patterns and try more balanced ones. It’s practical, skills-based, and focused on the here and now.',
+  },
+  {
+    name: 'Dialectical (DBT)',
+    desc: 'Teaches skills for handling intense emotions, stress, and relationships. It balances accepting where you are with working toward change. Core skills include mindfulness, distress tolerance, and emotion regulation.',
+  },
+  {
+    name: 'Psychodynamic Therapy',
+    desc: 'Looks at how earlier experiences and patterns outside your awareness shape your life today. Understanding where feelings come from gives you more freedom in how you respond. Insight becomes a path to lasting change.',
+  },
+  {
+    name: 'Emotionally Focused',
+    desc: 'Works with your emotions rather than pushing them away. It’s often used to heal disconnection and strengthen bonds in relationships. You learn to express needs in ways that bring people closer.',
+  },
+  {
+    name: 'Reality Therapy',
+    desc: 'Focuses on the present and the choices within your control. We look at what you want, what you’re doing now, and whether it’s getting you there. Then we make a realistic plan for change.',
+  },
+  {
+    name: 'Health at Every Size',
+    desc: 'A weight-inclusive approach that separates health and worth from body size. The focus is caring for your body, not shrinking it. It supports a kinder relationship with food, movement, and yourself.',
+  },
+  {
+    name: 'Schema Therapy',
+    desc: 'Helps identify deep-rooted patterns, often formed in childhood, that keep repeating in your life. We explore where they came from and how they show up now. Then we work on meeting your needs in healthier ways.',
+  },
 ]
 
 export const insurance = [

@@ -87,7 +87,7 @@ export default function Approaches() {
           <div className="approaches-meta" aria-hidden="true">
             <p className="approaches-swipe">
               <span className="approaches-count">01</span> / {String(approaches.length).padStart(2, '0')}
-              <span className="approaches-swipe-label">Swipe</span>
+              <span className="approaches-swipe-label">Tap or swipe</span>
             </p>
             <div className="approaches-progress">
               <i />
@@ -99,11 +99,19 @@ export default function Approaches() {
           {approaches.map((a, i) => {
             const Icon = cardIcons[i % cardIcons.length]
             return (
-              <li key={a} className="approach">
-                <div className="approach-inner">
+              <li key={a.name} className="approach">
+                <div
+                  className="approach-inner"
+                  tabIndex={0}
+                  onClick={(e) => e.currentTarget.classList.toggle('is-open')}
+                  onBlur={(e) => e.currentTarget.classList.remove('is-open')}
+                >
                   <span className="approach-numeral">{numerals[i]}</span>
-                  <Icon size={56} className="approach-icon" />
-                  <h3 className="approach-name">{a}</h3>
+                  <div className="approach-body">
+                    <Icon size={56} className="approach-icon" />
+                    <p className="approach-desc">{a.desc}</p>
+                  </div>
+                  <h3 className="approach-name">{a.name}</h3>
                   <span className="approach-corner" aria-hidden="true" />
                 </div>
               </li>
