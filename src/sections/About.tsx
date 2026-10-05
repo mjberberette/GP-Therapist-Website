@@ -47,7 +47,7 @@ export default function About() {
     <section ref={root} id="about" className="section about" aria-labelledby="about-title">
       <CobwebCorner className="about-cobweb" />
       <div className="container">
-        <header className="section-head">
+        <header className="section-head about-head">
           <p className="kicker" data-fade>
             <span className="num">i.</span>
             <span className="rule" />

@@ -6,6 +6,11 @@
   left: 0;
 }
 
+.about-head {
+  justify-items: center;
+  text-align: center;
+}
+
 .about-intro {
   max-width: 46ch;
   margin-inline: auto;
