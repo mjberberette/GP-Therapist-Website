@@ -21,6 +21,12 @@ export default function Footer() {
         ease: 'expo.out',
         scrollTrigger: { trigger: q('.footer-word')[0], start: 'top 98%', once: true },
       })
+
+      const glow = gsap.timeline({ scrollTrigger: { trigger: root.current, start: 'top 85%', once: true } })
+      glow
+        .from(q('.footer-glow-orb'), { autoAlpha: 0, yPercent: 30, scale: 0.8, duration: 1.8, ease: 'power3.out' })
+        .from(q('.footer-glow-arches'), { autoAlpha: 0, y: 80, duration: 1.4, ease: 'power3.out' }, 0.2)
+        .to(q('.footer-glow-orb'), { opacity: 0.72, scaleX: 1.06, duration: 4, ease: 'sine.inOut', repeat: -1, yoyo: true })
       return () => split.revert()
     },
     { scope: root },
@@ -28,6 +34,18 @@ export default function Footer() {
 
   return (
     <footer ref={root} className="footer">
+      <svg width="0" height="0" className="footer-defs" aria-hidden="true">
+        <filter id="footer-outline" x="-5%" y="-5%" width="110%" height="110%">
+          <feMorphology in="SourceAlpha" operator="dilate" radius="1.2" result="grown" />
+          <feComposite in="grown" in2="SourceAlpha" operator="out" result="ring" />
+          <feFlood floodColor="#ece3d6" floodOpacity="0.42" />
+          <feComposite in2="ring" operator="in" />
+        </filter>
+      </svg>
+      <div className="footer-glow" aria-hidden="true">
+        <div className="footer-glow-arches" />
+        <div className="footer-glow-orb" />
+      </div>
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
