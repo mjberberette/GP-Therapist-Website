@@ -19,6 +19,15 @@ export const hero = {
   sub: 'Providing online mental health counseling services to Florida residents ages 18+',
 }
 
+export const story = {
+  chapters: ['Bud', 'Unfurl', 'Bloom', 'Change', 'Begin'],
+  showUp: 'I show up to therapy the same way I show up in real life:',
+  words: ['modern,', 'compassionate,', 'straightforward,', 'and human.'],
+  taboo: 'No topic is too personal or taboo to discuss here.',
+  change: 'My job is to help you connect with the change you’re already seeking.',
+  walk: 'I’m here to walk with you, not lead you somewhere you don’t want to go.',
+}
+
 export const badges = [
   { top: 'Offers Telehealth', bottom: 'Appointments', icon: 'telehealth' },
   { top: 'Accepts', bottom: 'Online Payments', icon: 'payments' },

@@ -25,6 +25,17 @@ export function MoonIcon({ size = 48, ...p }: IconProps) {
   )
 }
 
+export function RoseIcon({ size = 48, ...p }: IconProps) {
+  return (
+    <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
+      <path className="draw" d="M13 16c0 7 5 11 11 11s11-4 11-11c-3 2-6 2-8 0-1 2-5 2-6 0-2 2-5 2-8 0Z" />
+      <path className="draw" d="M18.5 16c-2-3.5 0-8 5.5-8s7.5 4.5 5.5 8" />
+      <path className="draw" d="M24 11.5c-3 0-4.5 2.2-3.6 4.3.8 1.8 3.4 2.2 4.8.8 1.2-1.2.4-3.2-1.2-2.9" />
+      <path className="draw" d="M24 27v17M24 37c-4.5-.6-7.6-3.6-8.6-7.4 4.4.2 7.6 2.6 8.6 7.4ZM24 33.5c3.4-.8 6-3 7-6.2-3.8 0-6.2 2.2-7 6.2ZM24 41l2.4-1.6M24 30.5l-2.2-1.2" />
+    </svg>
+  )
+}
+
 export function CandleIcon({ size = 48, ...p }: IconProps) {
   return (
     <svg {...base(size, p)} className={`icon ${p.className ?? ''}`}>
@@ -182,6 +193,7 @@ export function MoonPhases({ className = '' }: { className?: string }) {
 }
 
 export const iconMap = {
+  rose: RoseIcon,
   moon: MoonIcon,
   candle: CandleIcon,
   key: KeyIcon,

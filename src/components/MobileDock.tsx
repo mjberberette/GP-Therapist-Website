@@ -10,7 +10,9 @@ export default function MobileDock() {
   useEffect(() => {
     const onScroll = () => {
       const nearBottom = window.innerHeight + window.scrollY > document.body.scrollHeight - 600
-      setShow(window.scrollY > window.innerHeight * 0.8 && !nearBottom)
+      const story = document.querySelector<HTMLElement>('.story')
+      const pastStory = story ? story.offsetTop + story.offsetHeight - window.innerHeight * 0.5 : window.innerHeight * 0.8
+      setShow(window.scrollY > pastStory && !nearBottom)
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })

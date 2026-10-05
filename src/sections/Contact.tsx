@@ -3,6 +3,7 @@ import { gsap, SplitText, useGSAP, prefersReducedMotion } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { about, practice } from '../content'
 import Magnetic from '../components/Magnetic'
+import Petals from '../components/Petals'
 import { ArrowIcon, PhoneIcon, SparkleIcon } from '../components/Icons'
 import './Contact.css'
 
@@ -45,6 +46,7 @@ export default function Contact() {
   return (
     <section ref={root} id="contact" className="section contact" aria-labelledby="contact-title">
       <div className="contact-glow" aria-hidden="true" />
+      <Petals className="contact-petals" />
       <div className="container contact-inner">
         <p className="contact-lead" data-split>
           {lead}

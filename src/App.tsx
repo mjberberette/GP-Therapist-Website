@@ -6,12 +6,11 @@ import Preloader from './components/Preloader'
 import Cursor from './components/Cursor'
 import Nav from './components/Nav'
 import MobileDock from './components/MobileDock'
-import Hero from './sections/Hero'
+import HeroStory from './sections/HeroStory'
 import Marquee from './sections/Marquee'
 import Badges from './sections/Badges'
 import About from './sections/About'
 import Art from './sections/Art'
-import Manifesto from './sections/Manifesto'
 import Services from './sections/Services'
 import Approaches from './sections/Approaches'
 import Fees from './sections/Fees'
@@ -51,12 +50,11 @@ function Site() {
       <Cursor />
       <Nav ready={ready} />
       <main id="main">
-        <Hero ready={ready} />
+        <HeroStory ready={ready} />
         <Marquee />
         <Badges />
         <About />
         <Art />
-        <Manifesto />
         <Services />
         <Approaches />
         <Fees />

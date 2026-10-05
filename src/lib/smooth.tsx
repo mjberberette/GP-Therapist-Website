@@ -35,7 +35,12 @@ export const useLenis = () => useContext(LenisContext)
 
 export function useScrollTo() {
   const lenis = useLenis()
-  return (target: string | HTMLElement, offset = 0) => {
+  return (target: string | HTMLElement | number, offset = 0) => {
+    if (typeof target === 'number') {
+      if (lenis) lenis.scrollTo(target, { duration: 1.8 })
+      else window.scrollTo({ top: target, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+      return
+    }
     const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : target
     if (!el) return
     if (lenis) lenis.scrollTo(el, { offset, duration: 1.6 })
