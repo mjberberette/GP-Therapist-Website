@@ -167,8 +167,17 @@
 
 @media (max-width: 560px) {
   .footer-top {
-    grid-template-columns: 1fr;
-    gap: 2.25rem;
+    gap: 2.25rem 1.25rem;
+  }
+  .footer-col:last-child {
+    grid-column: 1 / -1;
+  }
+  .footer-phone {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 0.4rem;
+    background-position: 0 calc(100% - 0.6rem);
   }
   .footer-bottom {
     flex-direction: column;

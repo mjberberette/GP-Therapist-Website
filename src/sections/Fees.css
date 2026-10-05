@@ -205,7 +205,11 @@
   }
   .tarot-emblem {
     grid-row: 1 / span 2;
-    width: 84px;
+    width: 76px;
+    margin-left: 0.35rem;
+  }
+  .tarot-rays {
+    inset: -10%;
   }
   .tarot-price {
     margin-top: 0;

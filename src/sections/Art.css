@@ -124,6 +124,9 @@
 @media (max-width: 560px) {
   .art-relief {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 1rem;
+  }
+  .art-num {
+    line-height: 1;
   }
 }

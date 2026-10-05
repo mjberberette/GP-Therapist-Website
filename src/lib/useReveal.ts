@@ -22,7 +22,7 @@ export function useReveal(scope: RefObject<HTMLElement | null>) {
           autoSplit: true,
           onSplit: (self) =>
             gsap.from(self.lines, {
-              yPercent: 115,
+              yPercent: 135,
               rotate: 2,
               duration: 1.2,
               stagger: 0.09,

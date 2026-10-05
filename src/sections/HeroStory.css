@@ -397,8 +397,8 @@
     padding: 0;
   }
   .story-chapter {
-    min-height: 40px;
-    min-width: 34px;
+    min-height: 44px;
+    min-width: 44px;
     justify-content: center;
   }
   .story-chapter-num {
@@ -425,7 +425,7 @@
   }
   .beat-intro {
     padding-left: 0;
-    padding-bottom: 0;
+    padding-bottom: 1.75rem;
   }
   .story-title {
     font-size: clamp(3.4rem, 18.5vw, 7rem);
@@ -434,8 +434,8 @@
     padding-left: 0.4em;
   }
   .story-eyebrow {
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
   }
   .story-scroll {
     display: none;

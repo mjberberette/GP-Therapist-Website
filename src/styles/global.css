@@ -212,10 +212,9 @@ p {
   max-width: 62ch;
 }
 
-.split-line {
-  overflow: clip;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
+.split-line-mask {
+  padding: 0.06em 0.04em 0.24em;
+  margin: -0.06em -0.04em -0.24em;
 }
 
 /* ---------- Buttons ---------- */

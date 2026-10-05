@@ -42,6 +42,7 @@
 .arch-frame-outer {
   inset: -14px;
   width: calc(100% + 28px);
+  max-width: none;
   height: calc(100% + 28px);
   stroke: var(--crimson-lit);
   stroke-width: 0.35;

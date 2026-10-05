@@ -52,9 +52,15 @@ export default function Approaches() {
       })
 
       mm.add('(max-width: 899px)', () => {
+        const count = q('.approaches-count')[0] as HTMLElement
+        const cards = q('.approach') as HTMLElement[]
         const onScroll = () => {
           const max = track.scrollWidth - track.clientWidth
-          gsap.set(bar, { scaleX: max > 0 ? track.scrollLeft / max : 0 })
+          const p = max > 0 ? track.scrollLeft / max : 0
+          gsap.set(bar, { scaleX: p })
+          const step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : 1
+          const i = p >= 0.995 ? cards.length - 1 : Math.round(track.scrollLeft / step)
+          count.textContent = String(Math.min(i, cards.length - 1) + 1).padStart(2, '0')
         }
         track.addEventListener('scroll', onScroll, { passive: true })
         onScroll()
@@ -78,8 +84,14 @@ export default function Approaches() {
           <h2 id="approaches-title" className="h2" data-split>
             Approaches
           </h2>
-          <div className="approaches-progress" aria-hidden="true">
-            <i />
+          <div className="approaches-meta" aria-hidden="true">
+            <p className="approaches-swipe">
+              <span className="approaches-count">01</span> / {String(approaches.length).padStart(2, '0')}
+              <span className="approaches-swipe-label">Swipe</span>
+            </p>
+            <div className="approaches-progress">
+              <i />
+            </div>
           </div>
         </div>
 

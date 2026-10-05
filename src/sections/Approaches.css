@@ -22,11 +22,49 @@
 .approaches-head .kicker {
   grid-column: 1 / -1;
 }
+.approaches-meta {
+  display: grid;
+  justify-items: end;
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
+}
+.approaches-swipe {
+  display: none;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--bone-dim);
+}
+.approaches-count {
+  color: var(--crimson-lit);
+}
+.approaches-swipe-label {
+  margin-left: 0.6rem;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.approaches-swipe-label::after {
+  content: ' →';
+  display: inline-block;
+  animation: swipe-nudge 1.8s var(--ease-out) infinite;
+}
+@keyframes swipe-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
 .approaches-progress {
   width: clamp(120px, 18vw, 260px);
   height: 1px;
   background: var(--line-strong);
-  margin-bottom: 1.2rem;
 }
 .approaches-progress i {
   display: block;
@@ -132,6 +170,21 @@
     scroll-snap-align: start;
   }
   .approach-inner {
-    height: 360px;
+    height: 330px;
+  }
+  .approach-numeral {
+    margin-top: 1.75rem;
+  }
+  .approaches-swipe {
+    display: inline-flex;
+  }
+  .approaches-progress {
+    width: 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .approaches-swipe-label::after {
+    animation: none;
   }
 }
