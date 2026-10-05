@@ -1,185 +1,10 @@
 import * as THREE from 'three'
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-
-const GOLDEN = THREE.MathUtils.degToRad(137.508)
-const lerp = THREE.MathUtils.lerp
-const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
-const smooth = (v: number) => v * v * (3 - 2 * v)
-
-type PetalOpts = {
-  w: number
-  h: number
-  cup: number
-  bend: number
-  curl: number
-  base: THREE.Color
-  mid: THREE.Color
-  edge: THREE.Color
-  segW?: number
-  segH?: number
-}
-
-function makePetal(o: PetalOpts) {
-  const segW = o.segW ?? 10
-  const segH = o.segH ?? 14
-  const g = new THREE.PlaneGeometry(1, 1, segW, segH)
-  const pos = g.attributes.position as THREE.BufferAttribute
-  const colors = new Float32Array(pos.count * 3)
-  const c = new THREE.Color()
-
-  for (let i = 0; i < pos.count; i++) {
-    const u = pos.getX(i) + 0.5
-    const v = pos.getY(i) + 0.5
-    const xn = (u - 0.5) * 2
-    const profile = 0.32 + 0.68 * Math.sin(Math.PI * Math.min(1, v * 0.86))
-    const vEff = v - 0.38 * xn * xn * Math.pow(v, 2.5)
-
-    const x = xn * 0.5 * o.w * profile
-    const y = vEff * o.h
-    let z = -o.cup * xn * xn * o.w * 0.5 * profile
-    z += o.bend * v * v * o.h
-    z += o.curl * Math.pow(Math.max(0, v - 0.62) / 0.38, 2) * o.h * 0.32
-    z += 0.025 * o.h * Math.sin(xn * 7 + v * 5) * v * v
-    pos.setXYZ(i, x, y, z)
-
-    const t = smooth(clamp01(v * 1.25))
-    c.copy(o.base).lerp(o.mid, t)
-    const rim = Math.pow(Math.max(Math.abs(xn), clamp01((v - 0.75) / 0.25)), 3)
-    c.lerp(o.edge, rim * 0.75)
-    colors.set([c.r, c.g, c.b], i * 3)
-  }
-
-  g.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-  g.computeVertexNormals()
-  return g
-}
-
-type PetalRig = { pivot: THREE.Object3D; mesh: THREE.Object3D; closed: number; open: number; t: number }
-
-const PALETTE = {
-  base: new THREE.Color('#0a0004'),
-  mid: new THREE.Color('#82041c'),
-  edge: new THREE.Color('#120005'),
-  leafBase: new THREE.Color('#010402'),
-  leafMid: new THREE.Color('#06120a'),
-  leafEdge: new THREE.Color('#020703'),
-}
-
-function buildRose(count: number, material: THREE.Material) {
-  const group = new THREE.Group()
-  const rigs: PetalRig[] = []
-
-  for (let i = 0; i < count; i++) {
-    const t = i / (count - 1)
-    const geo = makePetal({
-      w: lerp(0.42, 1.22, t),
-      h: lerp(0.5, 1.2, Math.pow(t, 0.8)),
-      cup: lerp(1.15, 0.45, t),
-      bend: lerp(-0.05, 0.12, t),
-      curl: lerp(0.1, 0.55, t),
-      base: PALETTE.base,
-      mid: PALETTE.mid,
-      edge: PALETTE.edge,
-    })
-    const mesh = new THREE.Mesh(geo, material)
-    mesh.position.z = lerp(0.03, 0.2, t)
-    mesh.position.y = lerp(0.12, -0.05, t)
-    const pivot = new THREE.Object3D()
-    pivot.rotation.y = i * GOLDEN
-    pivot.add(mesh)
-    group.add(pivot)
-    rigs.push({
-      pivot,
-      mesh,
-      t,
-      closed: lerp(-0.08, 0.14, Math.pow(t, 1.5)),
-      open: lerp(0.28, 1.4, Math.pow(t, 1.15)),
-    })
-  }
-
-  return { group, rigs }
-}
-
-function setBloom(rigs: PetalRig[], bloom: number) {
-  for (const r of rigs) {
-    const start = (1 - r.t) * 0.55
-    const local = smooth(clamp01((bloom - start) / 0.45))
-    r.mesh.rotation.x = lerp(r.closed, r.open, local)
-  }
-}
-
-function buildSepals(material: THREE.Material) {
-  const group = new THREE.Group()
-  for (let i = 0; i < 5; i++) {
-    const geo = makePetal({
-      w: 0.22,
-      h: 0.75,
-      cup: 0.3,
-      bend: 0.3,
-      curl: 0.6,
-      base: PALETTE.leafBase,
-      mid: PALETTE.leafMid,
-      edge: PALETTE.leafEdge,
-      segW: 4,
-      segH: 8,
-    })
-    const mesh = new THREE.Mesh(geo, material)
-    mesh.rotation.x = Math.PI * 0.62
-    mesh.position.set(0, 0.02, 0.14)
-    const pivot = new THREE.Object3D()
-    pivot.rotation.y = (i / 5) * Math.PI * 2 + 0.3
-    pivot.add(mesh)
-    group.add(pivot)
-  }
-  return group
-}
-
-function buildStem(material: THREE.Material) {
-  const group = new THREE.Group()
-  const curve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0.08, -1.4, 0.05),
-    new THREE.Vector3(-0.1, -3, -0.1),
-    new THREE.Vector3(0.05, -5.5, 0.1),
-  ])
-  const stem = new THREE.Mesh(new THREE.TubeGeometry(curve, 48, 0.045, 8), material)
-  group.add(stem)
-
-  const thornGeo = new THREE.ConeGeometry(0.03, 0.14, 6)
-  for (let i = 0; i < 6; i++) {
-    const p = curve.getPointAt(0.12 + i * 0.13)
-    const thorn = new THREE.Mesh(thornGeo, material)
-    const a = i * 2.3
-    thorn.position.set(p.x + Math.cos(a) * 0.05, p.y, p.z + Math.sin(a) * 0.05)
-    thorn.rotation.set(Math.sin(a) * 1.3, 0, -Math.cos(a) * 1.3)
-    group.add(thorn)
-  }
-
-  const leafGeo = makePetal({
-    w: 0.6,
-    h: 1.3,
-    cup: 0.25,
-    bend: 0.25,
-    curl: 0.2,
-    base: PALETTE.leafBase,
-    mid: PALETTE.leafMid,
-    edge: PALETTE.leafEdge,
-    segW: 6,
-    segH: 10,
-  })
-  ;[
-    { at: 0.28, ry: 0.6, rz: -1.05 },
-    { at: 0.45, ry: 3.6, rz: 1.0 },
-  ].forEach(({ at, ry, rz }) => {
-    const p = curve.getPointAt(at)
-    const pivot = new THREE.Object3D()
-    pivot.position.copy(p)
-    pivot.rotation.set(0, ry, rz)
-    pivot.add(new THREE.Mesh(leafGeo, material))
-    group.add(pivot)
-  })
-  return group
-}
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
+import { buildRose, buildSepals, buildStem, clamp01, lerp, makePetal, setBloom, smooth, type PetalRig } from './geometry'
+import { createLeafMaterial, createStemMaterial, createVelvetMaterial } from './materials'
+import { createBackdrop, createDust, createLightShafts } from './atmosphere'
+import { createPost, type Post } from './post'
 
 export type RoseSceneOptions = { mobile: boolean }
 
@@ -187,14 +12,21 @@ export class RoseScene {
   private renderer: THREE.WebGLRenderer
   private scene = new THREE.Scene()
   private camera: THREE.PerspectiveCamera
-  private clock = new THREE.Clock()
+  private timer = new THREE.Timer()
+  private post: Post
   private hero: THREE.Group
   private heroRigs: PetalRig[]
   private field!: THREE.InstancedMesh
   private fieldData: { pos: THREE.Vector3; rot: THREE.Euler; scale: number; spin: number }[] = []
   private petals!: THREE.InstancedMesh
   private petalData: { p: THREE.Vector3; v: THREE.Vector3; r: THREE.Euler; s: number; sway: number }[] = []
+  private backdrop: ReturnType<typeof createBackdrop>
+  private shafts: ReturnType<typeof createLightShafts>
+  private dust: ReturnType<typeof createDust>
+  private velvet: ReturnType<typeof createVelvetMaterial>
+  private envTarget: THREE.WebGLRenderTarget
   private dummy = new THREE.Object3D()
+  private heroWorld = new THREE.Vector3()
   private target = 0
   private progress = 0
   private pointer = new THREE.Vector2()
@@ -207,35 +39,53 @@ export class RoseScene {
 
   constructor(private canvas: HTMLCanvasElement, opts: RoseSceneOptions) {
     this.mobile = opts.mobile
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: !opts.mobile, powerPreference: 'high-performance' })
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, opts.mobile ? 1.5 : 2))
+    const mobile = opts.mobile
+
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' })
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping
-    this.renderer.toneMappingExposure = opts.mobile ? 1.4 : 1.2
-    this.renderer.setClearColor('#0a0708')
+    this.renderer.toneMappingExposure = mobile ? 1.35 : 1.15
+    this.renderer.setClearColor('#070405')
+    if (!mobile) {
+      this.renderer.shadowMap.enabled = true
+      this.renderer.shadowMap.type = THREE.PCFShadowMap
+    }
 
-    this.scene.fog = new THREE.FogExp2('#0a0708', 0.12)
-    this.camera = new THREE.PerspectiveCamera(opts.mobile ? 52 : 38, 1, 0.1, 60)
+    const pmrem = new THREE.PMREMGenerator(this.renderer)
+    this.envTarget = pmrem.fromScene(new RoomEnvironment(), 0.04)
+    pmrem.dispose()
+    this.scene.environment = this.envTarget.texture
+    this.scene.environmentIntensity = 0.16
 
-    const petalMat = new THREE.MeshPhysicalMaterial({
-      vertexColors: true,
-      roughness: 0.6,
-      sheen: 0.45,
-      sheenRoughness: 0.45,
-      sheenColor: new THREE.Color('#b0142f'),
-      side: THREE.DoubleSide,
-    })
-    const greenMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85, side: THREE.DoubleSide })
-    const stemMat = new THREE.MeshStandardMaterial({ color: '#07140b', roughness: 0.8 })
+    this.scene.fog = new THREE.FogExp2('#070405', 0.13)
+    this.camera = new THREE.PerspectiveCamera(mobile ? 52 : 38, 1, 0.1, 80)
 
-    const { group, rigs } = buildRose(opts.mobile ? 26 : 34, petalMat)
+    this.velvet = createVelvetMaterial()
+    const leafMat = createLeafMaterial()
+    const stemMat = createStemMaterial()
+
+    const { group, rigs } = buildRose(mobile ? 26 : 34, this.velvet.material, mobile ? 0.8 : 1)
     this.hero = new THREE.Group()
-    this.hero.add(group, buildSepals(greenMat), buildStem(stemMat))
+    this.hero.add(group, buildSepals(leafMat), buildStem(stemMat, leafMat))
     this.heroRigs = rigs
     this.scene.add(this.hero)
 
-    this.buildField(petalMat)
-    this.buildPetals(petalMat)
+    this.backdrop = createBackdrop()
+    this.shafts = createLightShafts(mobile ? 3 : 4)
+    this.dust = createDust(mobile ? 250 : 600)
+    this.dust.uniforms.uPixelRatio.value = this.renderer.getPixelRatio()
+    this.scene.add(this.backdrop.mesh, this.shafts.group, this.dust.points)
+
+    const distant = createVelvetMaterial({ rimStrength: 0.12 }).material
+    distant.envMapIntensity = 0.12
+    this.buildField(distant)
+    this.buildPetals(distant)
     this.buildLights()
+
+    this.post = createPost(this.renderer, this.scene, this.camera, {
+      mobile,
+      hideFromDepth: [this.backdrop.mesh, this.shafts.group, this.dust.points],
+    })
 
     this.resize()
     window.addEventListener('pointermove', this.onPointer, { passive: true })
@@ -243,24 +93,34 @@ export class RoseScene {
   }
 
   private buildLights() {
-    this.scene.add(new THREE.AmbientLight('#3a0814', 1))
-    const key = new THREE.SpotLight('#ffc2b8', 9, 0, 0.42, 0.9, 0)
+    this.scene.add(new THREE.AmbientLight('#3a0814', 0.8))
+
+    const key = new THREE.SpotLight('#ffc2b8', 10, 0, 0.42, 0.9, 0)
     key.position.set(1.5, 7.5, 2.5)
     key.target = this.hero
+    if (!this.mobile) {
+      key.castShadow = true
+      key.shadow.mapSize.set(1024, 1024)
+      key.shadow.bias = -0.0004
+      key.shadow.normalBias = 0.03
+      key.shadow.camera.near = 3
+      key.shadow.camera.far = 14
+    }
     this.scene.add(key)
-    const rim = new THREE.PointLight('#ff1f45', 10, 0, 0)
+
+    const rim = new THREE.PointLight('#ff1f45', 11, 0, 0)
     rim.position.set(-2.5, 1.5, -2.5)
     this.scene.add(rim)
     const back = new THREE.PointLight('#ff1f45', 3, 0, 0)
     back.position.set(2.5, 0.5, -3)
     this.scene.add(back)
-    const violet = new THREE.PointLight('#5a2bb8', 1.2, 0, 0)
+    const violet = new THREE.PointLight('#5a2bb8', 1.4, 0, 0)
     violet.position.set(-3, -1, 2.5)
     this.scene.add(violet)
   }
 
   private buildField(material: THREE.Material) {
-    const { group, rigs } = buildRose(18, material)
+    const { group, rigs } = buildRose(18, material, 0.6)
     setBloom(rigs, 0.85)
     group.updateMatrixWorld(true)
     const parts: THREE.BufferGeometry[] = []
@@ -268,6 +128,7 @@ export class RoseScene {
       if ((o as THREE.Mesh).isMesh) {
         const m = o as THREE.Mesh
         parts.push(m.geometry.clone().applyMatrix4(m.matrixWorld))
+        m.geometry.dispose()
       }
     })
     const merged = mergeGeometries(parts)!
@@ -344,6 +205,7 @@ export class RoseScene {
     const h = this.canvas.clientHeight
     if (!w || !h) return
     this.renderer.setSize(w, h, false)
+    this.post.setSize(w, h)
     this.camera.aspect = w / h
     this.camera.updateProjectionMatrix()
   }
@@ -402,17 +264,37 @@ export class RoseScene {
       this.petals.setMatrixAt(i, this.dummy.matrix)
     }
     this.petals.instanceMatrix.needsUpdate = true
+
+    this.backdrop.uniforms.uTime.value = time
+    this.backdrop.uniforms.uIntensity.value = lerp(0.65, 1, bloom)
+    this.shafts.uniforms.uTime.value = time
+    this.shafts.uniforms.uStrength.value = lerp(0.55, 1.25, bloom) * (1 - dive * 0.5)
+    this.shafts.group.position.x = this.hero.position.x - 1.15
+    this.dust.uniforms.uTime.value = time
+    this.dust.uniforms.uIntensity.value = lerp(0.6, 1.1, p)
+    this.velvet.uniforms.uRimStrength.value = lerp(0.45, 0.8, bloom)
+
+    const { grade, bloom: bloomPass, bokeh } = this.post
+    grade.uniforms.uTime.value = time
+    bloomPass.strength = lerp(this.mobile ? 0.45 : 0.55, this.mobile ? 0.65 : 0.8, bloom)
+    if (bokeh) {
+      this.hero.getWorldPosition(this.heroWorld)
+      this.heroWorld.y += 0.3
+      ;(bokeh.uniforms as Record<string, THREE.IUniform>).focus.value = this.camera.position.distanceTo(this.heroWorld)
+    }
   }
 
-  private loop = () => {
+  private render() {
+    this.post.composer.render()
+  }
+
+  private loop = (now?: number) => {
     this.raf = requestAnimationFrame(this.loop)
-    if (!this.visible) {
-      this.clock.getDelta()
-      return
-    }
-    const dt = Math.min(this.clock.getDelta(), 0.05)
-    this.update(dt, this.clock.elapsedTime)
-    this.renderer.render(this.scene, this.camera)
+    this.timer.update(now)
+    if (!this.visible) return
+    const dt = Math.min(this.timer.getDelta(), 0.05)
+    this.update(dt, this.timer.getElapsed())
+    this.render()
     if (this.onFirstFrame) {
       this.onFirstFrame()
       this.onFirstFrame = undefined
@@ -423,20 +305,23 @@ export class RoseScene {
     this.target = p
     this.progress = p
     this.update(0, 0)
-    this.renderer.render(this.scene, this.camera)
+    this.render()
   }
 
   dispose() {
     cancelAnimationFrame(this.raf)
+    this.timer.dispose()
     window.removeEventListener('pointermove', this.onPointer)
     this.scene.traverse((o) => {
       const m = o as THREE.Mesh
-      if (m.isMesh) {
+      if (m.isMesh || (o as THREE.Points).isPoints) {
         m.geometry.dispose()
         const mat = m.material as THREE.Material | THREE.Material[]
         ;(Array.isArray(mat) ? mat : [mat]).forEach((x) => x.dispose())
       }
     })
+    this.envTarget.dispose()
+    this.post.composer.dispose()
     this.renderer.dispose()
   }
 }

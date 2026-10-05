@@ -83,7 +83,8 @@ export default function HeroStory({ ready }: { ready: boolean }) {
       const intro = gsap.timeline({ delay: 0.2, defaults: { ease: 'expo.out' } })
       intro
         .set(q('.story-reveal'), { autoAlpha: 1 })
-        .from(q('.story-canvas, .story-fallback'), { autoAlpha: 0, scale: 1.08, duration: 2.4, ease: 'power2.out' }, 0)
+        .from(q('.story-canvas'), { scale: 1.08, duration: 2.4, ease: 'power2.out' }, 0)
+        .from(q('.story-fallback'), { autoAlpha: 0, scale: 1.08, duration: 2.4, ease: 'power2.out' }, 0)
         .from(titleSplits[0].chars, { yPercent: 115, rotate: 6, duration: 1.4, stagger: 0.035 }, 0.4)
         .from(titleSplits[1].chars, { yPercent: 115, rotate: -6, duration: 1.4, stagger: 0.035 }, 0.55)
         .from(titleSplits[2].chars, { yPercent: 115, rotate: 6, duration: 1.4, stagger: 0.035 }, 0.7)
