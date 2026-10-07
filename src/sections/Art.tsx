@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { gsap, useGSAP, prefersReducedMotion } from '../lib/gsap'
+import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion, PLAY_ONCE } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { art } from '../content'
 import './Art.css'
@@ -18,16 +18,27 @@ export default function Art() {
         duration: 2,
         stagger: 0.1,
         ease: 'power2.inOut',
-        scrollTrigger: { trigger: q('.art-eye')[0], start: 'top 80%', once: true },
+        scrollTrigger: { trigger: q('.art-eye')[0], start: 'top 80%', toggleActions: PLAY_ONCE },
       })
 
-      const sweep = gsap.timeline({ repeat: -1, yoyo: true, defaults: { duration: 1.1, ease: 'sine.inOut' } })
-      sweep.fromTo(q('.art-iris'), { x: -34 }, { x: 34 }, 0).fromTo(q('.art-light'), { xPercent: -50, left: '8%' }, { left: '92%' }, 0)
+      const light = q('.art-light')[0] as HTMLElement
+      const lightSpan = () => (light.parentElement?.offsetWidth ?? 0) * 0.84
+      gsap.set(light, { left: '8%', xPercent: -50 })
+      const sweep = gsap.timeline({ repeat: -1, yoyo: true, paused: true, defaults: { duration: 1.1, ease: 'sine.inOut' } })
+      sweep.fromTo(q('.art-iris'), { x: -34 }, { x: 34 }, 0).fromTo(light, { x: 0 }, { x: lightSpan }, 0)
 
-      gsap
-        .timeline({ repeat: -1, repeatDelay: 4.5, delay: 3 })
+      const blink = gsap
+        .timeline({ repeat: -1, repeatDelay: 4.5, delay: 3, paused: true })
         .to(q('.art-lid'), { scaleY: 0.05, duration: 0.12, ease: 'power2.in', transformOrigin: '50% 50%' })
         .to(q('.art-lid'), { scaleY: 1, duration: 0.18, ease: 'power2.out' })
+
+      ScrollTrigger.create({
+        trigger: q('.art-eye')[0],
+        start: 'top bottom',
+        end: 'bottom top',
+        onToggle: (self) => [sweep, blink].forEach((t) => (self.isActive ? t.play() : t.pause())),
+        onRefresh: () => sweep.invalidate(),
+      })
 
       gsap.fromTo(
         q('.art-strike'),
@@ -55,7 +66,7 @@ export default function Art() {
         autoAlpha: 0,
         duration: 1.6,
         ease: 'expo.out',
-        scrollTrigger: { trigger: q('.art-relief')[0], start: 'top 85%', once: true },
+        scrollTrigger: { trigger: q('.art-relief')[0], start: 'top 85%', toggleActions: PLAY_ONCE },
       })
     },
     { scope: root },

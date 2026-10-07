@@ -26,8 +26,11 @@ export default function Cursor() {
       ry(e.clientY)
     }
 
+    let current: HTMLElement | null = null
     const over = (e: PointerEvent) => {
       const target = (e.target as HTMLElement).closest<HTMLElement>('a, button, [data-cursor]')
+      if (target === current) return
+      current = target
       const r = ring.current!
       if (target) {
         r.classList.add('is-hover')

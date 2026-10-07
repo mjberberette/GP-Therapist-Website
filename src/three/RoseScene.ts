@@ -35,6 +35,10 @@ export class RoseScene {
   private visible = true
   private mobile: boolean
   private lookAt = new THREE.Vector3()
+  private quality = 1
+  private perfFrames = 0
+  private perfTime = 0
+  private perfWarmup = 90
   onFirstFrame?: () => void
 
   constructor(private canvas: HTMLCanvasElement, opts: RoseSceneOptions) {
@@ -42,7 +46,6 @@ export class RoseScene {
     const mobile = opts.mobile
 
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' })
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping
     this.renderer.toneMappingExposure = mobile ? 1.35 : 1.15
     this.renderer.setClearColor('#070405')
@@ -73,7 +76,6 @@ export class RoseScene {
     this.backdrop = createBackdrop()
     this.shafts = createLightShafts(mobile ? 3 : 4)
     this.dust = createDust(mobile ? 250 : 600)
-    this.dust.uniforms.uPixelRatio.value = this.renderer.getPixelRatio()
     this.scene.add(this.backdrop.mesh, this.shafts.group, this.dust.points)
 
     const distant = createVelvetMaterial({ rimStrength: 0.12 }).material
@@ -204,6 +206,10 @@ export class RoseScene {
     const w = this.canvas.clientWidth
     const h = this.canvas.clientHeight
     if (!w || !h) return
+    const budget = this.mobile ? 1.3e6 : 2.4e6
+    const pr = Math.min(window.devicePixelRatio, 1.5, Math.sqrt(budget / (w * h))) * this.quality
+    this.renderer.setPixelRatio(Math.max(0.6, pr))
+    this.dust.uniforms.uPixelRatio.value = this.renderer.getPixelRatio()
     this.renderer.setSize(w, h, false)
     this.post.setSize(w, h)
     this.camera.aspect = w / h
@@ -292,12 +298,35 @@ export class RoseScene {
     this.raf = requestAnimationFrame(this.loop)
     this.timer.update(now)
     if (!this.visible) return
-    const dt = Math.min(this.timer.getDelta(), 0.05)
+    const rawDt = this.timer.getDelta()
+    const dt = Math.min(rawDt, 0.05)
     this.update(dt, this.timer.getElapsed())
     this.render()
+    this.govern(rawDt)
     if (this.onFirstFrame) {
       this.onFirstFrame()
       this.onFirstFrame = undefined
+    }
+  }
+
+  /** Steps render quality down when frames run consistently slow. Never steps back up, to avoid oscillating. */
+  private govern(dt: number) {
+    if (this.perfWarmup > 0) {
+      this.perfWarmup--
+      return
+    }
+    if (dt > 0.25) return
+    this.perfTime += dt
+    if (++this.perfFrames < 45) return
+    const avg = this.perfTime / this.perfFrames
+    this.perfFrames = 0
+    this.perfTime = 0
+    if (avg < 1 / 48) return
+    if (this.quality > 0.72) {
+      this.quality -= 0.14
+      this.resize()
+    } else if (this.post.bokeh?.enabled) {
+      this.post.bokeh.enabled = false
     }
   }
 

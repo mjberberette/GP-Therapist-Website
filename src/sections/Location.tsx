@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { gsap, useGSAP, prefersReducedMotion } from '../lib/gsap'
+import { gsap, useGSAP, prefersReducedMotion, PLAY_ONCE } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { location, practice } from '../content'
 import { TelehealthIcon } from '../components/Icons'
@@ -22,7 +22,7 @@ export default function Location() {
           scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: true },
         },
       )
-      const trigger = { trigger: q('.loc-visual')[0], start: 'top 80%', once: true }
+      const trigger = { trigger: q('.loc-visual')[0], start: 'top 80%', toggleActions: PLAY_ONCE }
       gsap.from(q('.loc-ring-path:not(.dashed)'), {
         drawSVG: 0,
         duration: 2.2,

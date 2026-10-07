@@ -14,4 +14,10 @@ export const prefersReducedMotion = () =>
 export const isFinePointer = () =>
   typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
+/**
+ * Plays on first entry and never reverses. Use instead of `once: true`: a `once` trigger kills itself
+ * when it fires during a refresh (e.g. reloading mid-page), which corrupts ScrollTrigger's trigger list.
+ */
+export const PLAY_ONCE = 'play none none none'
+
 export { gsap, ScrollTrigger, SplitText, useGSAP }

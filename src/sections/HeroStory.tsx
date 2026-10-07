@@ -81,10 +81,12 @@ export default function HeroStory({ ready }: { ready: boolean }) {
         SplitText.create(el as HTMLElement, { type: 'chars', mask: 'chars' }),
       )
       const intro = gsap.timeline({ delay: 0.2, defaults: { ease: 'expo.out' } })
+      intro.set(q('.story-reveal'), { autoAlpha: 1 })
+      const canvasEl = q('.story-canvas')
+      if (canvasEl.length) intro.from(canvasEl, { scale: 1.08, duration: 2.4, ease: 'power2.out' }, 0)
+      const fallbackEl = q('.story-fallback')
+      if (fallbackEl.length) intro.from(fallbackEl, { autoAlpha: 0, scale: 1.08, duration: 2.4, ease: 'power2.out' }, 0)
       intro
-        .set(q('.story-reveal'), { autoAlpha: 1 })
-        .from(q('.story-canvas'), { scale: 1.08, duration: 2.4, ease: 'power2.out' }, 0)
-        .from(q('.story-fallback'), { autoAlpha: 0, scale: 1.08, duration: 2.4, ease: 'power2.out' }, 0)
         .from(titleSplits[0].chars, { yPercent: 150, rotate: 6, duration: 1.4, stagger: 0.035 }, 0.4)
         .from(titleSplits[1].chars, { yPercent: 150, rotate: -6, duration: 1.4, stagger: 0.035 }, 0.55)
         .from(titleSplits[2].chars, { yPercent: 150, rotate: 6, duration: 1.4, stagger: 0.035 }, 0.7)
@@ -121,6 +123,7 @@ export default function HeroStory({ ready }: { ready: boolean }) {
         .to({}, { duration: 0.6 })
 
       chapterAt.current = [0, 1.6, 4.7, 7, 9.1].map((t) => t / tl.duration())
+      let lastChapter = -1
 
       ScrollTrigger.create({
         trigger: root.current,
@@ -133,7 +136,10 @@ export default function HeroStory({ ready }: { ready: boolean }) {
           root.current?.style.setProperty('--story-p', String(self.progress))
           let c = 0
           chapterAt.current.forEach((t, i) => self.progress >= t - 0.01 && (c = i))
-          setChapter(c)
+          if (c !== lastChapter) {
+            lastChapter = c
+            setChapter(c)
+          }
         },
       })
 

@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { gsap, SplitText, useGSAP, prefersReducedMotion } from '../lib/gsap'
+import { gsap, SplitText, useGSAP, prefersReducedMotion, PLAY_ONCE } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { about, practice } from '../content'
 import Magnetic from '../components/Magnetic'
@@ -26,7 +26,7 @@ export default function Contact() {
         stagger: 0.04,
         duration: 1.4,
         ease: 'expo.out',
-        scrollTrigger: { trigger: q('.contact-punch')[0], start: 'top 85%', once: true },
+        scrollTrigger: { trigger: q('.contact-punch')[0], start: 'top 85%', toggleActions: PLAY_ONCE },
       })
       gsap.fromTo(
         q('.contact-glow'),

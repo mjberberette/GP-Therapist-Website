@@ -76,7 +76,7 @@ export function createPost(
   camera: THREE.PerspectiveCamera,
   { mobile, hideFromDepth }: { mobile: boolean; hideFromDepth: THREE.Object3D[] },
 ): Post {
-  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: mobile ? 0 : 4 })
+  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: mobile ? 0 : 2 })
   const composer = new EffectComposer(renderer, target)
   composer.addPass(new RenderPass(scene, camera))
 

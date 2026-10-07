@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { gsap, SplitText, useGSAP, prefersReducedMotion } from '../lib/gsap'
+import { gsap, ScrollTrigger, SplitText, useGSAP, prefersReducedMotion, PLAY_ONCE } from '../lib/gsap'
 import { legal, nav, practice } from '../content'
 import { useScrollTo } from '../lib/smooth'
 import { MoonPhases } from '../components/Icons'
@@ -19,13 +19,30 @@ export default function Footer() {
         stagger: 0.03,
         duration: 1.2,
         ease: 'expo.out',
-        scrollTrigger: { trigger: q('.footer-word')[0], start: 'top 98%', once: true },
+        scrollTrigger: { trigger: q('.footer-word')[0], start: 'top 98%', toggleActions: PLAY_ONCE },
       })
 
-      const glow = gsap.timeline({ scrollTrigger: { trigger: root.current, start: 'top 85%', once: true } })
-      glow
-        .from(q('.footer-glow-orb'), { autoAlpha: 0, yPercent: 30, scale: 0.8, duration: 1.8, ease: 'power3.out' })
-        .to(q('.footer-glow-orb'), { opacity: 0.72, scaleX: 1.06, duration: 4, ease: 'sine.inOut', repeat: -1, yoyo: true })
+      let introDone = false
+      const orb = q('.footer-glow-orb')
+      const breathe = gsap.to(orb, { opacity: 0.72, scaleX: 1.06, duration: 4, ease: 'sine.inOut', repeat: -1, yoyo: true, paused: true })
+      gsap.from(orb, {
+        autoAlpha: 0,
+        yPercent: 30,
+        scale: 0.8,
+        duration: 1.8,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: root.current, start: 'top 85%', toggleActions: PLAY_ONCE },
+        onComplete: () => {
+          introDone = true
+          if (inView.isActive) breathe.play()
+        },
+      })
+      const inView = ScrollTrigger.create({
+        trigger: root.current,
+        start: 'top bottom',
+        end: 'bottom top',
+        onToggle: (self) => (self.isActive && introDone ? breathe.play() : breathe.pause()),
+      })
       return () => split.revert()
     },
     { scope: root },

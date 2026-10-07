@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { ArchClipDefs } from './components/Arch'
 import { SmoothScroll, useLenis } from './lib/smooth'
 import { ScrollTrigger } from './lib/gsap'
+import { useLiveIcons } from './lib/useLiveIcons'
 import Preloader from './components/Preloader'
 import Cursor from './components/Cursor'
 import Nav from './components/Nav'
@@ -24,6 +25,7 @@ function Site() {
   const [ready, setReady] = useState(false)
   const lenis = useLenis()
   const onLoaded = useCallback(() => setReady(true), [])
+  useLiveIcons()
 
   useEffect(() => {
     document.body.classList.toggle('is-loading', !ready)

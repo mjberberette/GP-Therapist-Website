@@ -14,6 +14,7 @@ export default function Petals({ className = '', density = 1 }: { className?: st
     let w = 0
     let h = 0
     let raf = 0
+    let dpr = 1
     let visible = false
     let petals: P[] = []
 
@@ -31,42 +32,57 @@ export default function Petals({ className = '', density = 1 }: { className?: st
     })
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      dpr = Math.min(window.devicePixelRatio || 1, 2)
       w = canvas.clientWidth
       h = canvas.clientHeight
       canvas.width = w * dpr
       canvas.height = h * dpr
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       const count = Math.round(Math.min(60, (w * h) / 22000) * density)
       petals = Array.from({ length: count }, () => spawn(true))
     }
 
-    const drawPetal = (p: P) => {
-      ctx.save()
-      ctx.translate(p.x, p.y)
-      ctx.rotate(p.rot)
-      ctx.scale(1, Math.abs(Math.cos(p.flip)) * 0.8 + 0.2)
-      const g = ctx.createLinearGradient(0, -p.s, 0, p.s)
-      g.addColorStop(0, COLORS[p.hue])
+    const SPRITE = 64
+    const sprites = COLORS.map((color) => {
+      const c = document.createElement('canvas')
+      c.width = c.height = SPRITE
+      const sx = c.getContext('2d')!
+      const r = SPRITE / 2
+      sx.translate(r, r)
+      const s = r * 0.9
+      const g = sx.createLinearGradient(0, -s, 0, s)
+      g.addColorStop(0, color)
       g.addColorStop(1, '#1a0207')
-      ctx.fillStyle = g
-      ctx.beginPath()
-      ctx.moveTo(0, p.s)
-      ctx.bezierCurveTo(p.s * 1.1, p.s * 0.4, p.s * 0.8, -p.s, 0, -p.s * 0.7)
-      ctx.bezierCurveTo(-p.s * 0.8, -p.s, -p.s * 1.1, p.s * 0.4, 0, p.s)
-      ctx.fill()
-      ctx.restore()
+      sx.fillStyle = g
+      sx.beginPath()
+      sx.moveTo(0, s)
+      sx.bezierCurveTo(s * 1.1, s * 0.4, s * 0.8, -s, 0, -s * 0.7)
+      sx.bezierCurveTo(-s * 0.8, -s, -s * 1.1, s * 0.4, 0, s)
+      sx.fill()
+      return c
+    })
+
+    const drawPetal = (p: P) => {
+      const sy = Math.abs(Math.cos(p.flip)) * 0.8 + 0.2
+      const cos = Math.cos(p.rot)
+      const sin = Math.sin(p.rot)
+      ctx.setTransform(dpr * cos, dpr * sin, -dpr * sin * sy, dpr * cos * sy, dpr * p.x, dpr * p.y)
+      const d = p.s / 0.9
+      ctx.drawImage(sprites[p.hue], -d, -d, d * 2, d * 2)
     }
 
-    const tick = () => {
+    let last = performance.now()
+    const tick = (now: number) => {
       raf = requestAnimationFrame(tick)
+      const k = Math.min((now - last) / 16.67, 3)
+      last = now
       if (!visible) return
-      ctx.clearRect(0, 0, w, h)
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
       for (const p of petals) {
-        p.y += p.vy
-        p.x += p.vx + Math.sin(p.flip) * 0.4
-        p.rot += p.vr
-        p.flip += p.vf
+        p.y += p.vy * k
+        p.x += (p.vx + Math.sin(p.flip) * 0.4) * k
+        p.rot += p.vr * k
+        p.flip += p.vf * k
         if (p.y > h + 20) Object.assign(p, spawn())
         drawPetal(p)
       }
@@ -78,7 +94,7 @@ export default function Petals({ className = '', density = 1 }: { className?: st
     const ro = new ResizeObserver(resize)
     ro.observe(canvas)
     if (prefersReducedMotion()) petals.forEach(drawPetal)
-    else tick()
+    else raf = requestAnimationFrame(tick)
 
     return () => {
       cancelAnimationFrame(raf)

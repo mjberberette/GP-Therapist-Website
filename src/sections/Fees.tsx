@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
-import { gsap, useGSAP, prefersReducedMotion, isFinePointer } from '../lib/gsap'
+import { gsap, useGSAP, prefersReducedMotion, isFinePointer, PLAY_ONCE } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { fees, legal, paymentMethods, practice, quotes } from '../content'
 import { iconMap, SparkleIcon } from '../components/Icons'
@@ -73,7 +73,7 @@ export default function Fees() {
           duration: 1.5,
           stagger: 0.12,
           ease: 'expo.out',
-          scrollTrigger: { trigger: q('.tarot-row')[0], start: 'top 80%', once: true },
+          scrollTrigger: { trigger: q('.tarot-row')[0], start: 'top 80%', toggleActions: PLAY_ONCE },
         })
       })
       mm.add('(max-width: 899px)', () => {
@@ -84,7 +84,7 @@ export default function Fees() {
             autoAlpha: 0,
             duration: 1.2,
             ease: 'expo.out',
-            scrollTrigger: { trigger: slot, start: 'top 88%', once: true },
+            scrollTrigger: { trigger: slot, start: 'top 88%', toggleActions: PLAY_ONCE },
           }),
         )
       })

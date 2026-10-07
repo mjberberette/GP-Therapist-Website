@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { gsap, useGSAP, prefersReducedMotion } from '../lib/gsap'
+import { gsap, useGSAP, prefersReducedMotion, PLAY_ONCE } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { credentials } from '../content'
 import './Credentials.css'
@@ -20,7 +20,7 @@ export default function Credentials() {
         duration: 2,
         ease: 'power3.out',
         onUpdate: () => (counter.textContent = String(Math.round(obj.v))),
-        scrollTrigger: { trigger: counter, start: 'top 90%', once: true },
+        scrollTrigger: { trigger: counter, start: 'top 90%', toggleActions: PLAY_ONCE },
       })
     },
     { scope: root },
