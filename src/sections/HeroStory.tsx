@@ -152,6 +152,11 @@ export default function HeroStory({ ready }: { ready: boolean }) {
     { scope: root, dependencies: [ready] },
   )
 
+  const goContact = (e: React.MouseEvent) => {
+    e.preventDefault()
+    scrollTo('#contact-form')
+  }
+
   const jumpTo = (i: number) => {
     const el = root.current
     if (!el) return
@@ -189,6 +194,16 @@ export default function HeroStory({ ready }: { ready: boolean }) {
               <em className="story-title-line">{hero.heading[1]}</em>
               <span className="story-title-line">{hero.heading[2]}</span>
             </h1>
+            <div className="story-cta story-intro-fade">
+              <a href="#contact-form" className="btn btn-primary" onClick={goContact}>
+                <span className="btn-label">Contact me</span>
+                <ArrowIcon size={14} />
+              </a>
+              <a href={practice.phoneHref} className="story-cta-phone" data-cursor="Call">
+                <PhoneIcon size={15} />
+                <span>{practice.phone}</span>
+              </a>
+            </div>
             <div className="story-scroll story-intro-fade" aria-hidden="true">
               <i />
               <span>Scroll</span>
@@ -223,15 +238,15 @@ export default function HeroStory({ ready }: { ready: boolean }) {
             <p className="beat-final-sub">{hero.sub}</p>
             <div className="beat-ctas">
               <Magnetic>
-                <a href={practice.phoneHref} className="btn btn-primary" data-cursor="Call">
-                  <PhoneIcon size={16} />
-                  <span className="btn-label">{practice.phone}</span>
+                <a href="#contact-form" className="btn btn-primary" onClick={goContact}>
+                  <span className="btn-label">Contact me</span>
+                  <ArrowIcon size={14} />
                 </a>
               </Magnetic>
               <Magnetic>
-                <a href={practice.portal} className="btn btn-ghost" target="_blank" rel="noopener">
-                  <span className="btn-label">Client Portal</span>
-                  <ArrowIcon size={14} />
+                <a href={practice.phoneHref} className="btn btn-ghost" data-cursor="Call">
+                  <PhoneIcon size={16} />
+                  <span className="btn-label">{practice.phone}</span>
                 </a>
               </Magnetic>
             </div>

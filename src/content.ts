@@ -199,7 +199,7 @@ export const location = {
   address: 'Saint Petersburg, FL 33709',
 }
 
-export const consultation = 'Call or Email me for a free 15 minute consultation'
+export const consultation = 'Call or Email me for a free 15\u00a0minute consultation'
 
 export const legal = {
   goodFaith: 'You have the right to receive a Good Faith Estimate of what your services may cost.',
@@ -213,4 +213,16 @@ export const nav = [
   { label: 'Services', href: '#services' },
   { label: 'Fees', href: '#fees' },
   { label: 'Location', href: '#locations' },
+  { label: 'Contact', href: '#contact-form' },
 ]
+
+export const contactForm = {
+  kicker: 'Contact',
+  heading: ['Reach', 'out'],
+  sub: consultation,
+  topics: ['Counseling session', 'Accelerated Resolution Therapy (ART)', 'HRT or surgery letter', 'Not sure yet'],
+  methods: ['Email', 'Phone call', 'Text'],
+  privacy:
+    'Please keep this message brief and avoid sharing detailed health information here. We can talk through the details during your consultation.',
+  success: 'Thank you for reaching out. I’ll get back to you soon.',
+}

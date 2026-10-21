@@ -209,14 +209,32 @@
   .nav-phone {
     display: none;
   }
+  .nav-toggle {
+    display: block;
+  }
+}
+
+@media (max-width: 1080px) and (max-height: 540px) {
+  .menu-link {
+    font-size: clamp(2rem, 11vh, 3rem);
+  }
+  .menu-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+  }
+  .menu-foot {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1.25rem;
+  }
+  .menu-tag {
+    grid-column: 1 / -1;
+    margin-top: 0.25rem;
+  }
 }
 
 @media (max-width: 768px) {
   .nav-portal {
     display: none;
-  }
-  .nav-toggle {
-    display: block;
   }
   .nav-mono {
     width: 38px;
@@ -228,7 +246,7 @@
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1081px) {
   .menu {
     display: none;
   }

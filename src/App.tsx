@@ -19,6 +19,8 @@ import Insurance from './sections/Insurance'
 import Credentials from './sections/Credentials'
 import Location from './sections/Location'
 import Contact from './sections/Contact'
+import ConsultCta from './sections/ConsultCta'
+import ContactForm from './sections/ContactForm'
 import Footer from './sections/Footer'
 
 function Site() {
@@ -59,11 +61,13 @@ function Site() {
         <Art />
         <Services />
         <Approaches />
+        <ConsultCta />
         <Fees />
         <Insurance />
         <Credentials />
         <Location />
         <Contact />
+        <ContactForm />
       </main>
       <Footer />
       <MobileDock />

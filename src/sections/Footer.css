@@ -41,6 +41,15 @@
   font-weight: 600;
   letter-spacing: 0.06em;
 }
+@media (max-width: 1080px) {
+  .footer-phone {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 0.4rem;
+    background-position: 0 calc(100% - 0.6rem);
+  }
+}
 
 .footer-col {
   display: grid;
