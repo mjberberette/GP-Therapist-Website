@@ -64,7 +64,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <img src="/images/logo.png" alt="Genevieve Piché, LCSW logo" width="96" height="96" loading="lazy" />
+            <img src={`${import.meta.env.BASE_URL}images/logo.png`} alt="Genevieve Piché, LCSW logo" width="96" height="96" loading="lazy" />
             <div>
               <p className="footer-name">
                 {practice.name}, {practice.credential}

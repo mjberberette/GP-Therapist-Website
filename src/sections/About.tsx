@@ -63,7 +63,7 @@ export default function About() {
         <div className="about-grid">
           <aside className="about-aside">
             <div className="about-sticky">
-              <Arch className="about-photo" src="/images/headshot.jpg" alt={practice.name} />
+              <Arch className="about-photo" src={`${import.meta.env.BASE_URL}images/headshot.jpg`} alt={practice.name} />
               <div className="about-caption" data-fade>
                 <span className="about-caption-name">{practice.name}</span>
                 <span className="about-caption-title">{practice.title}</span>
