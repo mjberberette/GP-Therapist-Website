@@ -129,6 +129,190 @@
   opacity: 1;
 }
 
+.esa {
+  position: relative;
+  width: min(400px, 100%);
+  margin: clamp(3.5rem, 7vw, 6rem) auto 0;
+  perspective: 1400px;
+}
+.esa-toggle {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 22px;
+}
+.esa-toggle:focus-visible {
+  outline: 1px solid var(--crimson-lit);
+  outline-offset: 6px;
+}
+.esa-inner {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 1s var(--ease-out);
+}
+.esa.is-open .esa-inner {
+  transform: rotateY(180deg);
+}
+@media (hover: hover) {
+  .esa:hover .esa-inner {
+    transform: rotateY(180deg);
+  }
+}
+.esa-face {
+  grid-area: 1 / 1;
+  position: relative;
+  border-radius: 22px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid rgba(236, 227, 214, 0.3);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 0 0 6px var(--ink-2), inset 0 0 0 7px rgba(236, 227, 214, 0.18),
+    inset 0 0 60px rgba(0, 0, 0, 0.45);
+}
+.esa-front {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 1.5rem;
+  padding: 2.75rem 2rem 2.25rem;
+  text-align: center;
+  background: radial-gradient(80% 55% at 50% 38%, rgba(110, 20, 36, 0.5), transparent 70%),
+    linear-gradient(180deg, var(--ink-4), var(--ink-2));
+}
+.esa-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--crimson-lit);
+  opacity: 0.7;
+}
+.esa-corner-tl {
+  top: 16px;
+  left: 16px;
+  border-width: 1px 0 0 1px;
+  border-top-left-radius: 10px;
+}
+.esa-corner-tr {
+  top: 16px;
+  right: 16px;
+  border-width: 1px 1px 0 0;
+  border-top-right-radius: 10px;
+}
+.esa-corner-bl {
+  bottom: 16px;
+  left: 16px;
+  border-width: 0 0 1px 1px;
+  border-bottom-left-radius: 10px;
+}
+.esa-corner-br {
+  bottom: 16px;
+  right: 16px;
+  border-width: 0 1px 1px 0;
+  border-bottom-right-radius: 10px;
+}
+.esa-mat {
+  display: grid;
+  place-items: center;
+  width: min(58%, 200px);
+  aspect-ratio: 4 / 5;
+  border-radius: 50%;
+  border: 1px solid rgba(236, 227, 214, 0.35);
+  box-shadow: 0 0 0 8px rgba(236, 227, 214, 0.04), 0 0 0 9px rgba(236, 227, 214, 0.16);
+  background: radial-gradient(closest-side, rgba(194, 45, 71, 0.28), transparent);
+}
+.esa-mat .icon {
+  width: 72%;
+  height: auto;
+  color: var(--bone);
+}
+.esa-plaque {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.7rem 1.6rem 0.8rem;
+  border: 1px solid rgba(236, 227, 214, 0.25);
+  border-radius: 6px;
+  background: rgba(10, 7, 8, 0.4);
+}
+.esa-plaque-name {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.9rem);
+  line-height: 1.1;
+}
+.esa-plaque-price {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--crimson-lit);
+}
+.esa-hint {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.esa-hint-tap {
+  display: none;
+}
+@media (hover: none) {
+  .esa-hint-hover {
+    display: none;
+  }
+  .esa-hint-tap {
+    display: inline;
+  }
+}
+.esa-back {
+  display: grid;
+  align-content: center;
+  gap: 0.85rem;
+  padding: 2.25rem 2rem;
+  transform: rotateY(180deg);
+  background: radial-gradient(90% 50% at 50% 0%, rgba(110, 20, 36, 0.45), transparent 70%),
+    linear-gradient(180deg, var(--ink-4), var(--ink-2));
+}
+.esa-title {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 1.2rem + 0.6vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.1;
+}
+.esa-meta {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--bone-2);
+}
+.esa-label {
+  margin-top: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--crimson-lit);
+}
+.esa-list {
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.esa-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem;
+  align-items: baseline;
+}
+.esa-list svg {
+  color: var(--crimson-lit);
+  transform: translateY(-1px);
+}
+.esa-renewal {
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--bone-dim);
+}
+
 .fees-notes {
   display: grid;
   grid-template-columns: 1fr 1.4fr 1fr;

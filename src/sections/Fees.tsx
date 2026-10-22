@@ -1,9 +1,9 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { gsap, useGSAP, prefersReducedMotion, isFinePointer, PLAY_ONCE } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
-import { fees, legal, paymentMethods, practice, quotes } from '../content'
-import { iconMap, SparkleIcon } from '../components/Icons'
+import { esa, fees, legal, paymentMethods, practice, quotes } from '../content'
+import { DogIcon, iconMap, SparkleIcon } from '../components/Icons'
 import './Fees.css'
 
 function TarotCard({ fee }: { fee: (typeof fees)[number] }) {
@@ -50,6 +50,58 @@ function TarotCard({ fee }: { fee: (typeof fees)[number] }) {
         <p className="tarot-price">{fee.price}</p>
         <motion.div className="tarot-glare" style={{ background: glare }} aria-hidden="true" />
       </motion.div>
+    </div>
+  )
+}
+
+function EsaPortrait() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div className={`esa${open ? ' is-open' : ''}`} data-fade>
+      <button
+        type="button"
+        className="esa-toggle"
+        aria-expanded={open}
+        aria-controls="esa-details"
+        aria-label={`${esa.title}, ${esa.price}. ${open ? 'Hide' : 'Show'} details`}
+        onClick={() => setOpen((o) => !o)}
+      />
+      <div className="esa-inner">
+        <div className="esa-face esa-front" aria-hidden="true">
+          <span className="esa-corner esa-corner-tl" />
+          <span className="esa-corner esa-corner-tr" />
+          <span className="esa-corner esa-corner-bl" />
+          <span className="esa-corner esa-corner-br" />
+          <div className="esa-mat" data-draw>
+            <DogIcon size={96} />
+          </div>
+          <div className="esa-plaque">
+            <span className="esa-plaque-name">{esa.short}</span>
+            <span className="esa-plaque-price">{esa.price}</span>
+          </div>
+          <span className="esa-hint">
+            <span className="esa-hint-hover">Hover for details</span>
+            <span className="esa-hint-tap">Tap for details</span>
+          </span>
+        </div>
+        <div id="esa-details" className="esa-face esa-back">
+          <h3 className="esa-title">{esa.title}</h3>
+          <p className="esa-meta">
+            {esa.eligibility} · {esa.sessions}
+          </p>
+          <p className="esa-label">{esa.includesLabel}</p>
+          <ul className="esa-list">
+            {esa.includes.map((item) => (
+              <li key={item}>
+                <SparkleIcon size={8} />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p className="esa-renewal">{esa.renewal}</p>
+        </div>
+      </div>
     </div>
   )
 }
@@ -112,6 +164,8 @@ export default function Fees() {
             <TarotCard key={f.numeral} fee={f} />
           ))}
         </div>
+
+        <EsaPortrait />
 
         <div className="fees-notes">
           <div className="fees-note" data-fade>

@@ -41,7 +41,7 @@ export const about = {
   intro:
     'Hey! I’m Genevieve. I’m a Licensed Clinical Social Worker in Florida. I show up to therapy the same way I show up in real life: modern, compassionate, straightforward, and human.',
   paragraphs: [
-    'I specialize in treating anxiety, trauma/PTSD, OCD, and supporting the LGBTQIA+ community. I also offer Accelerated Resolution Therapy (ART), a trauma-focused therapy that uses guided eye movements to help reduce symptoms like nightmares, flashbacks, memory gaps, numbness, hypervigilance, irritability, and self-destructive patterns. Many clients experience meaningful relief in just 1–5 sessions.',
+    'I specialize in treating anxiety, trauma/PTSD, OCD, and supporting the 2SLGBTQIA+ community. I also offer Accelerated Resolution Therapy (ART), a trauma-focused therapy that uses guided eye movements to help reduce symptoms like nightmares, flashbacks, memory gaps, numbness, hypervigilance, irritability, and self-destructive patterns. Many clients experience meaningful relief in just 1–5 sessions.',
     'I’m also proud to provide assessment and referral letters for Hormone Replacement Therapy, gender confirmation surgeries, and sterilization support for any adult who needs it. No gatekeeping; just care, respect, and honesty.',
     'As a former military spouse, I deeply value working with military members, veterans, and first responders. I’m also proudly out as bisexual. My clients tell me they appreciate my mix of directness and empathy. I won’t force you to change (and honestly, that’s not how therapy works anyway). My job is to help you connect with the change you’re already seeking.',
     'I take the time to get to know you, your story, your strengths, and your goals, so we can figure out the kind of therapy that actually fits you. Finding the right therapist shouldn’t feel like solving a puzzle. My approach is person-centered, which means I believe you’re the expert on your life. I’m here to walk with you, not lead you somewhere you don’t want to go.',
@@ -51,9 +51,31 @@ export const about = {
 }
 
 export const topSpecialties = [
-  { title: 'Trauma and PTSD', icon: 'candle' },
-  { title: 'Obsessive-Compulsive (OCD)', icon: 'key' },
-  { title: 'Anxiety', icon: 'moon' },
+  {
+    title: 'Trauma and PTSD',
+    icon: 'candle',
+    desc: 'I specialize in acute trauma, chronic trauma, and Complex PTSD (C-PTSD). I support clients in reducing trauma-related symptoms and creating meaningful, lasting change.',
+  },
+  {
+    title: 'Obsessive-Compulsive (OCD)',
+    icon: 'key',
+    desc: 'I work with both common and less recognized OCD subtypes, helping clients break free from cycles of fear, doubt, and compulsive behaviors. No thoughts are too taboo here.',
+  },
+  {
+    title: 'Anxiety',
+    icon: 'moon',
+    desc: 'Whether anxiety is tied to a specific challenge or feels like a lifelong struggle, I help clients develop the tools, insight, and confidence needed to navigate life with greater ease.',
+  },
+  {
+    title: 'Neurodivergence',
+    icon: 'infinity',
+    desc: 'I offer neurodiversity-affirming therapy for ADHD, autism, and other neurodivergent experiences, welcoming both formally diagnosed and self-identified individuals. Treatment emphasizes authenticity, self-compassion, and sustainable coping strategies.',
+  },
+  {
+    title: '2SLGBTQIA+ Issues',
+    icon: 'heart',
+    desc: 'As a 2SLGBTQIA+-affirming therapist, I provide a safe and welcoming space for clients to live more authentically and thrive. I also provide gender-affirming evaluations and documentation to support access to medical and surgical transition services for adults 18+.',
+  },
 ] as const
 
 export const art = {
@@ -89,7 +111,7 @@ export const services = {
     'Anxiety',
     'Depression',
     'Grief',
-    'LGBTQIA+',
+    '2SLGBTQIA+',
     'Gender Identity',
     'Kink/Diverse Sexualities',
     'Divorce',
@@ -184,6 +206,23 @@ export const fees = [
   { numeral: 'III', name: 'Reduced fee', note: 'Limited availability', price: '$100 – $120', icon: 'moon' },
 ] as const
 
+export const esa = {
+  title: 'Emotional Support Animal (ESA) Evaluations',
+  short: 'ESA Evaluations',
+  price: '$240',
+  eligibility: 'Florida residents only',
+  sessions: 'Typically 1–2 sessions, depending on clinical need and professional judgment.',
+  includesLabel: 'The $240 fee includes:',
+  includes: [
+    'A comprehensive diagnostic evaluation',
+    'Determination of ESA eligibility',
+    'Preparation and completion of all required documentation',
+    'An ESA letter valid for up to one year in Florida',
+  ],
+  renewal:
+    'Clients who remain actively engaged in therapy typically only pay the documentation fee for annual ESA letter renewals, as eligibility can be assessed through ongoing treatment.',
+}
+
 export const paymentMethods = 'American Express, Discover, Health Savings Account, Mastercard, Visa'
 
 export const credentials = [
@@ -220,7 +259,7 @@ export const contactForm = {
   kicker: 'Contact',
   heading: ['Reach', 'out'],
   sub: consultation,
-  topics: ['Counseling session', 'Accelerated Resolution Therapy (ART)', 'HRT or surgery letter', 'Not sure yet'],
+  topics: ['Counseling session', 'Accelerated Resolution Therapy (ART)', 'HRT or surgery letter', 'ESA evaluation', 'Not sure yet'],
   methods: ['Email', 'Phone call', 'Text'],
   privacy:
     'Please keep this message brief and avoid sharing detailed health information here. We can talk through the details during your consultation.',

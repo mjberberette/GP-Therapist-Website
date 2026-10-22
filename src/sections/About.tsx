@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { gsap, SplitText, useGSAP, prefersReducedMotion } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { about, practice, topSpecialties } from '../content'
@@ -6,8 +6,11 @@ import Arch from '../components/Arch'
 import { CobwebCorner, iconMap, SparkleIcon } from '../components/Icons'
 import './About.css'
 
+const stacked = () => window.matchMedia('(max-width: 560px)').matches
+
 export default function About() {
   const root = useRef<HTMLElement>(null)
+  const [active, setActive] = useState(0)
   useReveal(root)
 
   useGSAP(
@@ -84,16 +87,34 @@ export default function About() {
                 <SparkleIcon size={10} /> Top Specialties
               </p>
               <ul className="about-spec-list">
-                {topSpecialties.map((s) => {
+                {topSpecialties.map((s, i) => {
                   const Icon = iconMap[s.icon]
+                  const isActive = i === active
                   return (
-                    <li key={s.title} className="about-spec" data-draw>
-                      <Icon size={40} />
-                      <span>{s.title}</span>
+                    <li key={s.title} className={`about-spec${isActive ? ' is-active' : ''}`} data-draw>
+                      <button
+                        type="button"
+                        className="about-spec-btn"
+                        aria-expanded={isActive}
+                        onClick={() => setActive((a) => (a === i && stacked() ? -1 : i))}
+                        onPointerEnter={(e) => e.pointerType === 'mouse' && setActive(i)}
+                        onFocus={(e) => e.currentTarget.matches(':focus-visible') && setActive(i)}
+                      >
+                        <Icon size={40} />
+                        <span>{s.title}</span>
+                      </button>
+                      <p className="about-spec-inline">{s.desc}</p>
                     </li>
                   )
                 })}
               </ul>
+              <div className="about-spec-panel">
+                {topSpecialties.map((s, i) => (
+                  <p key={s.title} className={`about-spec-desc${i === active ? ' is-active' : ''}`}>
+                    {s.desc}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
         </div>

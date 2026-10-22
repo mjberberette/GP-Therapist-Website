@@ -134,6 +134,33 @@ export function HeartIcon({ size = 48, ...p }: IconProps) {
   )
 }
 
+export function InfinityIcon({ size = 48, ...p }: IconProps) {
+  return (
+    <Icon size={size} {...p}>
+      <path className="draw" d="M24 24c-3.2-4.4-5.6-6.5-9-6.5a6.5 6.5 0 0 0 0 13c3.4 0 5.8-2.1 9-6.5s5.6-6.5 9-6.5a6.5 6.5 0 0 1 0 13c-3.4 0-5.8-2.1-9-6.5Z" />
+      <path className="draw" d="M24 6l1 2.6L27.6 9.6 25 10.6 24 13.2l-1-2.6-2.6-1L23 8.6Z" />
+      <path className="draw" d="M24 36v6M21 39h6" />
+    </Icon>
+  )
+}
+
+export function DogIcon({ size = 48, ...p }: IconProps) {
+  return (
+    <Icon size={size} {...p}>
+      <path className="draw" d="M16.5 14.5c2-3.4 4.6-5 7.5-5s5.5 1.6 7.5 5" />
+      <path className="draw" d="M16.5 14.5c-4.2-1.2-7.5 1.6-7.5 6.8 0 3.6 1.2 6.6 3.2 8.7 2-2 3.2-5.2 3.9-8.6" />
+      <path className="draw" d="M31.5 14.5c4.2-1.2 7.5 1.6 7.5 6.8 0 3.6-1.2 6.6-3.2 8.7-2-2-3.2-5.2-3.9-8.6" />
+      <path className="draw" d="M16.2 17c-.8 6.2.4 11.6 3.2 15.2 1.8 2.4 3 3.3 4.6 3.3s2.8-.9 4.6-3.3c2.8-3.6 4-9 3.2-15.2" />
+      <circle className="draw" cx="20.4" cy="22.4" r="1.2" />
+      <circle className="draw" cx="27.6" cy="22.4" r="1.2" />
+      <path className="draw" d="M21.8 28.4h4.4L24 30.8Z" />
+      <path className="draw" d="M24 30.8v1.6c-.9 1.3-2.4 1.5-3.4.8M24 32.4c.9 1.3 2.4 1.5 3.4.8" />
+      <path className="draw" d="M17.5 38.5c4.3 2 8.7 2 13 0" />
+      <path className="draw" d="M24 41.6c-1.6-1.2-2.6-2-2.6-3a1.3 1.3 0 0 1 2.6-.4 1.3 1.3 0 0 1 2.6.4c0 1-1 1.8-2.6 3Z" />
+    </Icon>
+  )
+}
+
 export function SparkleIcon({ size = 16, ...p }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" {...p}>
@@ -218,6 +245,8 @@ export const iconMap = {
   insurance: InsuranceIcon,
   door: DoorIcon,
   heart: HeartIcon,
+  infinity: InfinityIcon,
+  dog: DogIcon,
 }
 
 export type IconName = keyof typeof iconMap
